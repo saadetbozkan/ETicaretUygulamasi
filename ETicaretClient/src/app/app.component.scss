@@ -1,0 +1,21 @@
+.app-navbar{
+    background-color: #8D9CF4;
+    border-radius: 7px;
+}
+.app-navbar-item:hover{
+    opacity: 0.7;
+}
+.app-navbar-item:active{
+    color:#5a5a5c;
+}
+.app-btn{
+    background-color: #687cf1;
+    border-color: #687cf1;
+    border-radius: 25px;
+}
+.app-btn:hover{
+    background-color: #8D9CF4;
+}
+.app-btn:active{
+    color: #687cf1;
+}
