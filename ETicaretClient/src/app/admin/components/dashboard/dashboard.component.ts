@@ -1,3 +1,5 @@
+import { MessageType, Position } from 'src/app/services/admin/alertify.service';
+import { AlertifyService } from 'src/app/services/admin/alertify.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  constructor(private alertify: AlertifyService) { }
 
   ngOnInit(): void {
+  }
+
+  m(){
+    this.alertify.message("Merhaba", {
+      messageType: MessageType.Error,
+      position: Position.BottomRight, 
+      delay: 5,
+      dismissOthers: false,
+    });
+  }
+
+  d(){
+    this.alertify.dismissAll();
   }
 
 }
