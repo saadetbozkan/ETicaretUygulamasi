@@ -5,6 +5,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add Persistence Services.
 builder.Services.AddPersistenceServices();
 
+//Add Cors
+builder.Services.AddCors(options => options.AddDefaultPolicy(policy 
+    => policy.WithOrigins("https://localhost:4200", "http://localhost:4200").AllowAnyHeader().AllowAnyMethod()
+));
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -20,7 +25,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
