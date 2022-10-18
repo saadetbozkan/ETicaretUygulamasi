@@ -1,20 +1,20 @@
 
-    a:link {
+    .sidebar-list-item:link {
         color:black;
         text-decoration:none;
     }
-    a:visited {
+    .sidebar-list-item:visited {
         color: rgb(83, 2, 76);
         text-decoration:none;
     }
     
     /* fare işaretçisi link üzerinde */
-    a:hover {
+    .sidebar-list-item:hover {
         color: rgb(108, 87, 106);
         background-color:#f9a3ba;
     }
     
     /* tam tıklama anı */
-    a:active {
+    .sidebar-list-item:active {
         color: rgb(52, 42, 51);
     }

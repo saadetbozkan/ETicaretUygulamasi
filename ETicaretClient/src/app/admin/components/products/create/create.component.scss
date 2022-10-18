@@ -1,0 +1,25 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+.product-create {
+    margin: 5px 5px 5px;
+    font-size: 12px;
+    border: 1px solid #8D9CF4;
+    background-color: #FFD9D9;
+    border-radius: 10px;
+}   
+.btn{
+    margin: 5px 5px 5px;
+    font-size: 12px; 
+    background-color: #687cf1;
+    border: 1px solid #8D9CF4;
+    border-radius: 25px;
+}
+.btn:hover{
+    background-color: #8D9CF4;
+}
+.btn:active{
+    color: #687cf1;
+}
