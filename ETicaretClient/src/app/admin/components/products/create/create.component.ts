@@ -26,12 +26,21 @@ export class CreateComponent extends BaseComponent implements OnInit {
     create_product.price = parseFloat(price.value);
     create_product.stock = parseInt(stock.value);
 
+
     this.productService.create(create_product, () => {
       this.hideSpinner(SpinnerType.JellyBox);
       this.alertify.message("Ürün başarıyla eklenmiştir.",{
         messageType : MessageType.Success,
         position:Position.BottomLeft,
-        dismissOthers: true})
+        dismissOthers: true
       });
+    }, errorMessage => {
+      this.alertify.message(errorMessage,
+        {
+        messageType : MessageType.Error,
+        position:Position.BottomLeft,
+        dismissOthers: true
+      });
+    });
   }
 }
