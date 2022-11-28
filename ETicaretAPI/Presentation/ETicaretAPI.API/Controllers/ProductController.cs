@@ -1,4 +1,5 @@
 ﻿using ETicaretAPI.Application.Repositories;
+using ETicaretAPI.Application.RequestParameters;
 using ETicaretAPI.Application.ViewModels.Products;
 using ETicaretAPI.Domain.Entities;
 using Microsoft.AspNetCore.Http;
@@ -21,10 +22,25 @@ namespace ETicaretAPI.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery]Pagination pagination)
         {
-            
-            return Ok(this.productReadRepository.GetAll(false));
+            var totalCount = this.productReadRepository.GetAll(false).Count();
+           var products = this.productReadRepository.GetAll(false).Select(p => new
+            {
+                p.Id,
+                p.Name,
+                p.Stock,
+                p.Price,
+                p.CreateDate,
+                p.UpdateDate
+            }).Skip(pagination.Page*pagination.Size).Take(pagination.Size);
+
+            return Ok(new
+            {
+                totalCount,
+                products
+            });
+
         }
 
         [HttpGet("{id}")]
@@ -35,10 +51,6 @@ namespace ETicaretAPI.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(VM_Create_Product model)
         {
-            if (ModelState.IsValid)
-            {
-
-            }
             await this.productWriteRepository.AddAsync(new()
             {
                 Name = model.Name,

@@ -1,5 +1,5 @@
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ProductService } from 'src/app/services/common/models/product.service';
 import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
 import { AlertifyService, MessageType, Position } from 'src/app/services/admin/alertify.service';
@@ -18,6 +18,7 @@ export class CreateComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  @Output() createdProduct :EventEmitter<Create_Product> = new EventEmitter();
 
   create(name: HTMLInputElement, stock:HTMLInputElement, price:HTMLInputElement){
     this.showSpinner(SpinnerType.JellyBox)
@@ -34,6 +35,7 @@ export class CreateComponent extends BaseComponent implements OnInit {
         position:Position.BottomLeft,
         dismissOthers: true
       });
+      this.createdProduct.emit(create_product);
     }, errorMessage => {
       this.alertify.message(errorMessage,
         {
