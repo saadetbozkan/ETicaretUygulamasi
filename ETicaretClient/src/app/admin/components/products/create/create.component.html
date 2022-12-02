@@ -11,3 +11,5 @@
     <input matInput type="number" min="0" value="0" #txtPrice>
 </mat-form-field>
 <button mat-raised-button class="btn" (click)="create(txtName, txtStock, txtPrice)">Ürün Ekle</button>
+
+<app-file-upload [options]="fileUploadOptions"></app-file-upload>
