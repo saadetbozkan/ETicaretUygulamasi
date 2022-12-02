@@ -86,7 +86,7 @@ namespace ETicaretAPI.API.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Upload()
         {
-            string uploadPath = Path.Combine(this.webHostEnvironment.WebRootPath, "resourc/product-images");
+            string uploadPath = Path.Combine(this.webHostEnvironment.WebRootPath, "resource/product-images");
              if(!Directory.Exists(uploadPath))
                 Directory.CreateDirectory(uploadPath);
             Random random = new Random();
