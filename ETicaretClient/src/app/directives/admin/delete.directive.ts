@@ -19,7 +19,7 @@ export class DeleteDirective {
     private httpClientService: HttpClientService, 
     private spinner: NgxSpinnerService,
     public dialog: MatDialog,
-    private alertifyServices: AlertifyService, 
+    private alertifyService: AlertifyService, 
     private dialogService:DialogService
   ) 
   {
@@ -38,10 +38,11 @@ export class DeleteDirective {
     this.dialogService.openDialog({
       componentType: DeleteDialogComponent,
       data: DeleteState.Yes,
-      afterClosed: () =>{
-         async () =>{
+      options: {width: "230px", height: "230px"},
+      afterClosed:  async () =>{
       this.spinner.show(SpinnerType.JellyBox);
       const td: HTMLTableCellElement= this.element.nativeElement;
+      debugger;
       this.httpClientService.delete({
         controller: this.controller
         },this.id).subscribe(data =>{
@@ -52,7 +53,7 @@ export class DeleteDirective {
           }, 700, ()=> 
           {
             this.callback.emit();
-            this.alertifyServices.message("Silme işlemi başarıyla gerçekleştirilmiştir.",{
+            this.alertifyService.message("Silme işlemi başarıyla gerçekleştirilmiştir.",{
               dismissOthers: true,
               messageType: MessageType.Success,
               position: Position.BottomRight
@@ -60,21 +61,14 @@ export class DeleteDirective {
           });
         }, (errorResponse: HttpErrorResponse) => {
           this.spinner.hide(SpinnerType.JellyBox)
-            this.alertifyServices.message("Silme işlemi yapılırken beklenmeyen bir hata ile karşılaşılmıştır.",{
+            this.alertifyService.message("Silme işlemi yapılırken beklenmeyen bir hata ile karşılaşılmıştır.",{
               dismissOthers: true,
-              messageType: MessageType.Success,
+              messageType: MessageType.Error,
               position: Position.BottomRight
             });
         });
      }
-      }
-    });
-      
-      
-      
-      
-      
-     
+    });     
   }
 
   // openDialog(afterClosed: any ): void {

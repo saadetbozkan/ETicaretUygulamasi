@@ -1,4 +1,5 @@
 ﻿using ETicaretAPI.Application.Services;
+using ETicaretAPI.Infrastructure.Operations;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -24,8 +25,7 @@ namespace ETicaretAPI.Infrastructure.Services
             try
             {
                 await using FileStream fileStream = new(path, FileMode.Create, FileAccess.Write, FileShare.None, 1024 * 1024, useAsync: false);
-                await fileStream.CopyToAsync(fileStream);
-                await fileStream.FlushAsync();
+                await file.CopyToAsync(fileStream);
                 await fileStream.FlushAsync();
                 return true;
             }
@@ -37,8 +37,28 @@ namespace ETicaretAPI.Infrastructure.Services
             
         }
 
-        public Task<string> FileRenameAsync(string fileName)
+        private async Task<string> FileRenameAsync(string path, string fileName, bool first = true, int count = 2)
         {
+            return await Task.Run<string>(async () =>
+            {
+                string extension = Path.GetExtension(fileName);
+                string newFileName = string.Empty;
+
+                if (first)
+                {
+                    string oldName = Path.GetFileNameWithoutExtension(fileName);
+                    newFileName = $"{NameOperation.CharacterRegulatory(oldName)}{extension}";
+
+                }
+                else
+                    newFileName = fileName;
+
+                if (File.Exists($"{path}\\{newFileName}"))
+                    return await FileRenameAsync(path, $"{Path.GetFileNameWithoutExtension(newFileName).Split("-")[0]}-{count}{extension}", false, ++count);
+                else
+                    return newFileName;
+
+            });
             
         }
 
@@ -53,7 +73,7 @@ namespace ETicaretAPI.Infrastructure.Services
             List<bool> results = new();
             foreach (IFormFile file in files)
             {
-                string fileNewName = await FileRenameAsync(file.FileName);
+                string fileNewName = await FileRenameAsync(uploadPath, file.FileName);
                 bool result = await CopyFilesAsync(Path.Combine(uploadPath, fileNewName), file);
                 datas.Add((fileNewName, Path.Combine(uploadPath, fileNewName)));
             }

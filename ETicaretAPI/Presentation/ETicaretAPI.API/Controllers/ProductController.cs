@@ -15,14 +15,12 @@ namespace ETicaretAPI.API.Controllers
     {
         readonly private IProductWriteRepository productWriteRepository;
         readonly private IProductReadRepository productReadRepository;
-        private readonly IWebHostEnvironment webHostEnvironment;
         private readonly IFileService fileService;
 
         public ProductController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment, IFileService fileService)
         {
             this.productWriteRepository = productWriteRepository;
             this.productReadRepository = productReadRepository;
-            this.webHostEnvironment = webHostEnvironment;
             this.fileService = fileService;
         }
 
