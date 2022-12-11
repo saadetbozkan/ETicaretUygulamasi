@@ -75,7 +75,7 @@ namespace ETicaretAPI.Infrastructure.Services
             {
                 string fileNewName = await FileRenameAsync(uploadPath, file.FileName);
                 bool result = await CopyFilesAsync(Path.Combine(uploadPath, fileNewName), file);
-                datas.Add((fileNewName, Path.Combine(uploadPath, fileNewName)));
+                datas.Add((fileNewName, Path.Combine(path, fileNewName)));
             }
             if(results.TrueForAll(r => r.Equals(true)))
             {

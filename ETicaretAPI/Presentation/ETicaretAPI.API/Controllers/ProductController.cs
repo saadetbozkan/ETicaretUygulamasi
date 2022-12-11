@@ -6,6 +6,7 @@ using ETicaretAPI.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using File = ETicaretAPI.Domain.Entities.File;
 
 namespace ETicaretAPI.API.Controllers
 {
@@ -16,12 +17,24 @@ namespace ETicaretAPI.API.Controllers
         readonly private IProductWriteRepository productWriteRepository;
         readonly private IProductReadRepository productReadRepository;
         private readonly IFileService fileService;
+        readonly IFileReadRepository fileReadRepository;
+        readonly IFileWriteRepository fileWriteRepository;
+        readonly IProductImageFileReadRepository productImageFileReadRepository;
+        readonly IProductImageFileWriteRepository productImageFileWriteRepository;
+        readonly IInvoiceFileReadRepository invoiceFileReadRepository;
+        readonly IInvoiceFileWriteRepository invoiceFileWriteRepository;
 
-        public ProductController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment, IFileService fileService)
+        public ProductController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment, IFileService fileService, IFileReadRepository fileReadRepository, IFileWriteRepository fileWriteRepository, IProductImageFileReadRepository productImageFileReadRepository, IProductImageFileWriteRepository productImageFileWriteRepository, IInvoiceFileReadRepository invoiceFileReadRepository, IInvoiceFileWriteRepository invoiceFileWriteRepository)
         {
             this.productWriteRepository = productWriteRepository;
             this.productReadRepository = productReadRepository;
             this.fileService = fileService;
+            this.fileReadRepository = fileReadRepository;
+            this.fileWriteRepository = fileWriteRepository;
+            this.productImageFileReadRepository = productImageFileReadRepository;
+            this.productImageFileWriteRepository = productImageFileWriteRepository;
+            this.invoiceFileReadRepository = invoiceFileReadRepository;
+            this.invoiceFileWriteRepository = invoiceFileWriteRepository;
         }
 
         [HttpGet]
@@ -87,8 +100,16 @@ namespace ETicaretAPI.API.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Upload()
         {
-           await this.fileService.UploadAsync("resource/product-images", Request.Form.Files);
+           var datas = await this.fileService.UploadAsync("resource/files", Request.Form.Files);
+            await this.fileWriteRepository.AddRangeAsync(datas.Select(d => new File()
+            {
+                FileName = d.filename,
+                Path = d.path
+            }).ToList()); ;
+            this.fileWriteRepository.SaveAsync();
+
             return Ok();
+            
         }
 
     }
