@@ -1,6 +1,8 @@
 using ETicaretAPI.Application.Validators;
 using ETicaretAPI.Infrastructure;
+using ETicaretAPI.Infrastructure.Enums;
 using ETicaretAPI.Infrastructure.Filters;
+using ETicaretAPI.Infrastructure.Services.Storage.Local;
 using ETicaretAPI.Persistence;
 using FluentValidation.AspNetCore;
 
@@ -9,6 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add Persistence Services.
 builder.Services.AddPersistenceServices();
 builder.Services.AddInfrastructureServices();
+
+builder.Services.AddStorage<LocalStorage>();
+//builder.Services.AddStorage(StorageType.Local);
+
 
 //Add Cors
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy 
