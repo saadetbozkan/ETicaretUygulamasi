@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ETicaretAPI.Infrastructure.Services.Storages
+namespace ETicaretAPI.Infrastructure.Services.Storage
 {
     public class StorageService : IStorageService
     {

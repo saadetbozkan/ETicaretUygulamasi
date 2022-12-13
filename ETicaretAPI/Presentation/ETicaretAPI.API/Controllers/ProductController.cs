@@ -100,7 +100,7 @@ namespace ETicaretAPI.API.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Upload()
         {
-           var datas = await this.storageService.UploadAsync("resource/files", Request.Form.Files);
+           var datas = await this.storageService.UploadAsync("files", Request.Form.Files);
             await this.fileWriteRepository.AddRangeAsync(datas.Select(d => new File()
             {
                 FileName = d.fileName,
