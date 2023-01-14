@@ -15,7 +15,7 @@ export class DialogService {
       width: dialogParameters.options?.width,
       height: dialogParameters.options?.height,
       position: dialogParameters.options?.position,
-      data: dialogParameters.data,
+      data: dialogParameters.data
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -23,7 +23,6 @@ export class DialogService {
         dialogParameters.afterClosed();
     });
   }
-
 }
 
 export class DialogParameters {

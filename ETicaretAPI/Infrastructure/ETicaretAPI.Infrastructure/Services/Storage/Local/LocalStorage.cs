@@ -60,7 +60,7 @@ namespace ETicaretAPI.Infrastructure.Services.Storage.Local
             {
                 string fileNewName = await FileRenameAsync(uploadPath, file.FileName, HasFile);
                 await CopyFilesAsync(Path.Combine(uploadPath, fileNewName), file);
-                datas.Add((file.Name, Path.Combine(path, fileNewName)));
+                datas.Add((fileNewName, Path.Combine(path, fileNewName)));
             }
            
             return datas;

@@ -25,13 +25,18 @@
         <td mat-cell *matCellDef="let element"> {{element.updateDate}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="photos">
+        <th mat-header-cell *matHeaderCellDef width="30" style="cursor: pointer"></th>
+        <td mat-cell *matCellDef="let element"> <img style="cursor: pointer" (click)="addProductImage(element.id)" src="../../../../../assets/photo.png" width="20" height="20"> </td>
+      </ng-container>
+
       <ng-container matColumnDef="edit">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element"> <img src="../../../../../assets/edit.png" width="20" height="20"> </td>
+        <th mat-header-cell *matHeaderCellDef width="30"></th>
+        <td mat-cell *matCellDef="let element"> <img  style="cursor: pointer" src="../../../../../assets/edit.png" width="20" height="20"> </td>
       </ng-container>
   
       <ng-container matColumnDef="delete">
-        <th mat-header-cell *matHeaderCellDef></th>
+        <th mat-header-cell *matHeaderCellDef width="30"></th>
         <td mat-cell *matCellDef="let element" appDelete [id]="element.id" (callback)="getProducts()" controller="products"></td>
       </ng-container>
 
