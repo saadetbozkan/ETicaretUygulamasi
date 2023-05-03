@@ -43,7 +43,7 @@ export class ListComponent extends BaseComponent implements OnInit {
       componentType: SelectProductImageDialogComponent,
       data : id,
       options:{
-        width: "500px"
+        width: "800px"
       }
     })
   }

@@ -5,6 +5,7 @@ using ETicaretAPI.Application.ViewModels.Products;
 using ETicaretAPI.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 using File = ETicaretAPI.Domain.Entities.File;
 
@@ -23,8 +24,9 @@ namespace ETicaretAPI.API.Controllers
         readonly IInvoiceFileReadRepository invoiceFileReadRepository;
         readonly IInvoiceFileWriteRepository invoiceFileWriteRepository;
         readonly IStorageService storageService;
+        readonly IWebHostEnvironment webHostEnvironment;
 
-        public ProductController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment, IFileReadRepository fileReadRepository, IFileWriteRepository fileWriteRepository, IProductImageFileReadRepository productImageFileReadRepository, IProductImageFileWriteRepository productImageFileWriteRepository, IInvoiceFileReadRepository invoiceFileReadRepository, IInvoiceFileWriteRepository invoiceFileWriteRepository, IStorageService storageService)
+        public ProductController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IFileReadRepository fileReadRepository, IFileWriteRepository fileWriteRepository, IProductImageFileReadRepository productImageFileReadRepository, IProductImageFileWriteRepository productImageFileWriteRepository, IInvoiceFileReadRepository invoiceFileReadRepository, IInvoiceFileWriteRepository invoiceFileWriteRepository, IStorageService storageService, IWebHostEnvironment webHostEnvironment)
         {
             this.productWriteRepository = productWriteRepository;
             this.productReadRepository = productReadRepository;
@@ -35,6 +37,8 @@ namespace ETicaretAPI.API.Controllers
             this.invoiceFileReadRepository = invoiceFileReadRepository;
             this.invoiceFileWriteRepository = invoiceFileWriteRepository;
             this.storageService = storageService;
+            this.webHostEnvironment = webHostEnvironment;
+
         }
 
         [HttpGet]
@@ -116,5 +120,27 @@ namespace ETicaretAPI.API.Controllers
             
         }
 
+        [HttpGet("[action]/{id}")]
+        public async Task<IActionResult> GetProductImages(string id)
+        {
+            Product? product = await this.productReadRepository.Table.Include(p => p.ProductImageFiles).FirstOrDefaultAsync(p => p.Id == Guid.Parse(id));
+            return Ok(product.ProductImageFiles.Select(p => new
+            {
+                p.Id,
+                Path = Path.Combine("https://localhost:7125", p.Path),
+                p.FileName
+            }));
+        }
+
+        [HttpDelete("[action]/{id}")]
+        public async Task<IActionResult> DeleteProductImage(string id, string imageId)
+        {
+            Product? product = await this.productReadRepository.Table.Include(p => p.ProductImageFiles).FirstOrDefaultAsync(p => p.Id == Guid.Parse(id));
+            ProductImageFile productImageFile = product.ProductImageFiles.FirstOrDefault(p => p.Id == Guid.Parse(imageId));
+            product.ProductImageFiles.Remove(productImageFile);
+            await this.productWriteRepository.SaveAsync();
+            return Ok();
+
+        }
     }
 }

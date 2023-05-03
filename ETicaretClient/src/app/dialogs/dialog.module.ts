@@ -5,6 +5,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SelectProductImageDialogComponent } from './select-product-image-dialog/select-product-image-dialog.component';
+import { MatCardModule } from '@angular/material/card';
+import { SafePipeModule } from 'safe-pipe';
 
 
 @NgModule({
@@ -14,8 +16,9 @@ import { SelectProductImageDialogComponent } from './select-product-image-dialog
       ],
   imports: [
     CommonModule,
-    MatDialogModule, MatButtonModule,
-    FileUploadModule
+    MatDialogModule, MatButtonModule, MatCardModule,
+    FileUploadModule,
+    SafePipeModule
   ]
 })
 export class DialogModule { }
