@@ -42,7 +42,6 @@ export class DeleteDirective {
       afterClosed:  async () =>{
       this.spinner.show(SpinnerType.JellyBox);
       const td: HTMLTableCellElement= this.element.nativeElement;
-      debugger;
       this.httpClientService.delete({
         controller: this.controller
         },this.id).subscribe(data =>{

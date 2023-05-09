@@ -24,31 +24,11 @@ namespace ETicaretAPI.API.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        readonly private IProductWriteRepository productWriteRepository;
-        readonly private IProductReadRepository productReadRepository;
-        readonly IFileReadRepository fileReadRepository;
-        readonly IFileWriteRepository fileWriteRepository;
-        readonly IProductImageFileReadRepository productImageFileReadRepository;
-        readonly IProductImageFileWriteRepository productImageFileWriteRepository;
-        readonly IInvoiceFileReadRepository invoiceFileReadRepository;
-        readonly IInvoiceFileWriteRepository invoiceFileWriteRepository;
-        readonly IStorageService storageService;
-        readonly IWebHostEnvironment webHostEnvironment;
-
         readonly IMediator mediator;
 
-        public ProductController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IFileReadRepository fileReadRepository, IFileWriteRepository fileWriteRepository, IProductImageFileReadRepository productImageFileReadRepository, IProductImageFileWriteRepository productImageFileWriteRepository, IInvoiceFileReadRepository invoiceFileReadRepository, IInvoiceFileWriteRepository invoiceFileWriteRepository, IStorageService storageService, IWebHostEnvironment webHostEnvironment, IMediator mediator)
+        public ProductController(IMediator mediator)
         {
-            this.productWriteRepository = productWriteRepository;
-            this.productReadRepository = productReadRepository;
-            this.fileReadRepository = fileReadRepository;
-            this.fileWriteRepository = fileWriteRepository;
-            this.productImageFileReadRepository = productImageFileReadRepository;
-            this.productImageFileWriteRepository = productImageFileWriteRepository;
-            this.invoiceFileReadRepository = invoiceFileReadRepository;
-            this.invoiceFileWriteRepository = invoiceFileWriteRepository;
-            this.storageService = storageService;
-            this.webHostEnvironment = webHostEnvironment;
+         
             this.mediator = mediator;
         }
 
