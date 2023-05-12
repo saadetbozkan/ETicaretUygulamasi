@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ETicaretAPI.Application.Features.Commands.AppUser.CreateUser
 {
-    public class CreateUserCommadRequest : IRequest<CreateUserCommadResponse>
+    public class CreateUserCommandRequest : IRequest<CreateUserCommandResponse>
     {
         public string NameSurname { get; set; }
         public string UserName { get; set; }

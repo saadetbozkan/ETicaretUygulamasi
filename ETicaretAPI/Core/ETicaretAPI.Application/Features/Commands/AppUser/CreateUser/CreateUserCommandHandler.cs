@@ -4,16 +4,16 @@ using Microsoft.AspNetCore.Identity;
 
 namespace ETicaretAPI.Application.Features.Commands.AppUser.CreateUser
 {
-    public class CreateUserCommadHandler : IRequestHandler<CreateUserCommadRequest, CreateUserCommadResponse>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommandRequest, CreateUserCommandResponse>
     {
         readonly UserManager<Domain.Entities.Identity.AppUser> userManager;
 
-        public CreateUserCommadHandler(UserManager<Domain.Entities.Identity.AppUser> userManager)
+        public CreateUserCommandHandler(UserManager<Domain.Entities.Identity.AppUser> userManager)
         {
             this.userManager = userManager;
         }
 
-        public async Task<CreateUserCommadResponse> Handle(CreateUserCommadRequest request, CancellationToken cancellationToken)
+        public async Task<CreateUserCommandResponse> Handle(CreateUserCommandRequest request, CancellationToken cancellationToken)
         {
             IdentityResult result = await userManager.CreateAsync(new()
             {
@@ -23,7 +23,7 @@ namespace ETicaretAPI.Application.Features.Commands.AppUser.CreateUser
                 Email = request.Email                
             },request.Password);
 
-            CreateUserCommadResponse response = new() { Succeeded = result.Succeeded };
+            CreateUserCommandResponse response = new() { Succeeded = result.Succeeded };
 
             if (result.Succeeded)
                 response.Message = "Kullanıcı başarıyla oluşturulmuştur.";

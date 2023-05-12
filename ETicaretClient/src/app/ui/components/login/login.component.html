@@ -1,0 +1,19 @@
+<div class="row my-5">
+  <div class="col-md-3"></div>
+  <div class="login col-md-6 rounded-3 d-flex justify-content-center">
+    <div class="my-5 w-75">
+      <div class="form-group mb-3">
+      <label for="userName">Kullanıcı Adı</label>
+      <input #txtUserNameOrEmail type="text" class="form-control" id="userName" placeholder="Kullanıcı Adı & Email">
+      <div class="form-text invalid-feedback" style="color:red">***</div>
+    </div>
+    <div lass="form-group mb-3">
+      <label for="password">Şifre</label>
+      <input #txtPassword type="password" class="form-control" id="password" placeholder="Şifre">
+    </div>
+    <button type="submit" class="btn login-btn my-3" (click)="login(txtUserNameOrEmail.value, txtPassword.value)">Giriş
+      Yap</button>
+    </div>
+  </div>
+  <div class="col-md-3"></div>
+</div>
