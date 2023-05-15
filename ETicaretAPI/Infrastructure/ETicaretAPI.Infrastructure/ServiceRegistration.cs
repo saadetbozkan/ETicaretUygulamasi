@@ -4,6 +4,8 @@ using ETicaretAPI.Infrastructure.Services.Storage.Local;
 using ETicaretAPI.Infrastructure.Services.Storage.Azure;
 using Microsoft.Extensions.DependencyInjection;
 using ETicaretAPI.Infrastructure.Services.Storage;
+using ETicaretAPI.Infrastructure.Services.Token;
+using ETicaretAPI.Application.Abstractions.Token;
 
 namespace ETicaretAPI.Infrastructure
 {
@@ -12,6 +14,7 @@ namespace ETicaretAPI.Infrastructure
         public static void AddInfrastructureServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddScoped<IStorageService, StorageService>();
+            serviceCollection.AddScoped<ITokenHandler, TokenHandler>();
         }
         public static void AddStorage<T>(this IServiceCollection serviceCollection) where T: Storage, IStorage
         {
