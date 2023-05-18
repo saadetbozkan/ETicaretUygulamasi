@@ -12,23 +12,24 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active app-navbar-item" aria-current="page" routerLink="">Home</a>
+                            <a class="nav-link app-navbar-item" routerLinkActive="active" aria-current="page"
+                                routerLink="home">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active app-navbar-item" aria-current="page"
+                            <a class="nav-link app-navbar-item" routerLinkActive="active" aria-current="page"
                                 routerLink="products">Products</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active app-navbar-item" aria-current="page"
+                            <a class="nav-link app-navbar-item" routerLinkActive="active" aria-current="page"
                                 routerLink="baskets">Basket</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active app-navbar-item" aria-current="page" routerLink="register" style="color: #0529f2"
-                                *ngIf="!authService.isAuthenticated">Register</a>
+                            <a class="nav-link app-navbar-item register" routerLinkActive="active" aria-current="page"
+                                routerLink="register" *ngIf="!authService.isAuthenticated">Register</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active app-navbar-item" aria-current="page" routerLink="login" style="color: #072bfa"
-                                *ngIf="!authService.isAuthenticated">Login</a>
+                            <a class="nav-link app-navbar-item login" routerLinkActive="active" aria-current="page"
+                                routerLink="login" *ngIf="!authService.isAuthenticated">Login</a>
                         </li>
                         <!-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle app-navbar-item" href="#" role="button"
@@ -48,11 +49,11 @@
                             <a class="nav-link disabled">Disabled</a>
                         </li> -->
                         <li class="nav-item">
-                            <a class="nav-link active app-navbar-item" aria-current="page" style="color: #bf0571; cursor: pointer;" 
-                            (click)="signOut()" *ngIf="authService.isAuthenticated">Sign out</a>
+                            <a class="nav-link  app-navbar-item signOut" aria-current="page" (click)="signOut()"
+                                *ngIf="authService.isAuthenticated">Sign out</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" class="btn app-btn" type="submit"
+                            <a class="nav-link" aria-current="page" class="btn app-btn" type="submit"
                                 routerLink="/admin" *ngIf="authService.isAuthenticated">Admin</a>
                         </li>
                     </ul>

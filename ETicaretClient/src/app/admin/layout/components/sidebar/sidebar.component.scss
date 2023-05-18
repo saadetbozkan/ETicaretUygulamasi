@@ -1,20 +1,20 @@
+.sidebar-list-item:link {
+    color: rgb(73, 66, 66);
+    text-decoration: none;
+}
 
-    .sidebar-list-item:link {
-        color:black;
-        text-decoration:none;
-    }
-    .sidebar-list-item:visited {
-        color: rgb(83, 2, 76);
-        text-decoration:none;
-    }
-    
-    /* fare işaretçisi link üzerinde */
-    .sidebar-list-item:hover {
-        color: rgb(108, 87, 106);
-        background-color:#f9a3ba;
-    }
-    
-    /* tam tıklama anı */
-    .sidebar-list-item:active {
-        color: rgb(52, 42, 51);
-    }
+/* fare işaretçisi link üzerinde */
+.sidebar-list-item:hover {
+    color: rgb(108, 87, 106);
+}
+
+/* tam tıklama anı */
+.sidebar-list-item:active {
+    color: rgb(52, 42, 51);
+}
+
+.active {
+    color: black;
+    font-size: 1.3rem;
+    background-color: #f9a3ba;
+}
