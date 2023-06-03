@@ -20,13 +20,13 @@ namespace ETicaretAPI.Infrastructure.Services.Token
             this.configuration = configuration;
         }
 
-        public Application.DTOs.Token CreateAccessToken(int minute)
+        public Application.DTOs.Token CreateAccessToken(int second)
         {
             Application.DTOs.Token token = new();
 
             SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(this.configuration["Token:SecurityKey"]));
             SigningCredentials signingCredentials = new(securityKey, SecurityAlgorithms.HmacSha256);
-            token.Expiration = DateTime.UtcNow.AddMinutes(minute);
+            token.Expiration = DateTime.UtcNow.AddSeconds(second);
 
             JwtSecurityToken securityToken = new(
                 audience: this.configuration["Token:Audience"],
@@ -40,5 +40,5 @@ namespace ETicaretAPI.Infrastructure.Services.Token
             token.AccessToken = tokenHandler.WriteToken(securityToken);
             return token;
         }
-    }
+    } 
 }

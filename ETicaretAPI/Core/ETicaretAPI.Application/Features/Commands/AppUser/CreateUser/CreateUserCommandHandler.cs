@@ -1,4 +1,6 @@
-﻿using ETicaretAPI.Application.Exceptions;
+﻿using ETicaretAPI.Application.Abstractions.Services;
+using ETicaretAPI.Application.DTOs.User;
+using ETicaretAPI.Application.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -6,31 +8,30 @@ namespace ETicaretAPI.Application.Features.Commands.AppUser.CreateUser
 {
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommandRequest, CreateUserCommandResponse>
     {
-        readonly UserManager<Domain.Entities.Identity.AppUser> userManager;
+        readonly IUserService userService;
 
-        public CreateUserCommandHandler(UserManager<Domain.Entities.Identity.AppUser> userManager)
+        public CreateUserCommandHandler(IUserService userService)
         {
-            this.userManager = userManager;
+            this.userService = userService;
         }
 
         public async Task<CreateUserCommandResponse> Handle(CreateUserCommandRequest request, CancellationToken cancellationToken)
         {
-            IdentityResult result = await userManager.CreateAsync(new()
+            CreateUserResponse response = await this.userService.CreateAsync(new()
             {
-                Id = Guid.NewGuid().ToString(),
-                NameSurname = request.NameSurname,
+                Email = request.Email,
+                Password = request.Password,
                 UserName = request.UserName,
-                Email = request.Email                
-            },request.Password);
-
-            CreateUserCommandResponse response = new() { Succeeded = result.Succeeded };
-
-            if (result.Succeeded)
-                response.Message = "Kullanıcı başarıyla oluşturulmuştur.";
-            else
-                foreach(var error in result.Errors)
-                    response.Message += $"{error.Code} - {error.Description}\n";
-            return response;
+                NameSurname = request.NameSurname,
+                PasswordConfirm = request.PasswordConfirm
+            });
+            
+            return new()
+            {
+                Message = response.Message,
+                Succeeded = response.Succeeded,
+            };;
+            
         }
     }
 }

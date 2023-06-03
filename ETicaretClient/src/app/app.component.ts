@@ -9,6 +9,9 @@ import { Position } from './services/admin/alertify.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  title(title: "ETicaretClient") {
+    throw new Error('Method not implemented.');
+  }
   constructor(public authService: AuthService, 
     private toastrService: CustomToastrService,
     private router: Router) {

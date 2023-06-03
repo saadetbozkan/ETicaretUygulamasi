@@ -16,12 +16,13 @@ export class AuthGuard implements CanActivate {
     private authService: AuthService){
 
   }
-  canActivate(route: ActivatedRouteSnapshot,state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     this.spinner.show(SpinnerType.BallTriangle);
     //child componentlerin authorization'ı
     this.authService.identityCheck(); 
 
     if(!_isAuthenticated){
+      localStorage.removeItem("accessToken");
       this.router.navigate(["login"],{queryParams :{returnUrl: state.url}});
       this.toastrService.message("Oturum açmanız gerekiyor!", "Yetkisiz Erişim",{
         messageType : ToasterMessageType.Warning,

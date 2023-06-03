@@ -1,18 +1,21 @@
 ﻿using ETicaretAPI.Application.Features.Commands.AppUser.CreateUser;
+using ETicaretAPI.Application.Features.Commands.AppUser.FacebookLoginUser;
 using ETicaretAPI.Application.Features.Commands.AppUser.GoogleLoginUser;
 using ETicaretAPI.Application.Features.Commands.AppUser.LoginUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
 namespace ETicaretAPI.API.Controllers
 {
-    [Route("api/[controller]s")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class UserController : Controller
+    public class AuthController : ControllerBase
     {
         readonly IMediator mediator;
 
-        public UserController(IMediator mediator)
+        public AuthController(IMediator mediator)
         {
             this.mediator = mediator;
         }
@@ -37,6 +40,12 @@ namespace ETicaretAPI.API.Controllers
             GoogleLoginUserCommandResponse response = await this.mediator.Send(googleLoginUserCommandRequest);
             return Ok(response);
         }
+
+        [HttpPost("facebook-login")]
+        public async Task<IActionResult> FacebookLogin(FacebookLoginUserCommandRequest facebookLoginUserCommandRequest)
+        {
+            FacebookLoginUserCommandResponse response = await this.mediator.Send(facebookLoginUserCommandRequest);
+            return Ok(response);
+        }
     }
 }
-
