@@ -9,6 +9,7 @@ using Google.Apis.Auth;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -22,14 +23,16 @@ namespace ETicaretAPI.Persistence.Services
         readonly ITokenHandler tokenHandler;
         readonly SignInManager<AppUser> signInManager;
         readonly HttpClient httpClient;
-        public AuthService(IConfiguration configuration, UserManager<AppUser> userManager, ITokenHandler tokenHandler, SignInManager<AppUser> signInManager, IHttpClientFactory httpClientFactory)
+        readonly IUserService userService;
+        public AuthService(IConfiguration configuration, UserManager<AppUser> userManager, ITokenHandler tokenHandler, SignInManager<AppUser> signInManager, IHttpClientFactory httpClientFactory, IUserService userService)
         {
             this.configuration = configuration;
             this.userManager = userManager;
             this.tokenHandler = tokenHandler;
             this.signInManager = signInManager;
             this.httpClient = httpClientFactory.CreateClient();
-         }
+            this.userService = userService;
+        }
 
         async Task<Token> CreateUserExternalAsync(AppUser user, string email, string name, UserLoginInfo info, int accessTokenLifeTime)
         {
@@ -51,12 +54,14 @@ namespace ETicaretAPI.Persistence.Services
                 }
             }
             if (result)
+            {
                 await this.userManager.AddLoginAsync(user, info);
-            else
-                throw new Exception("Invalid external Authentication.");
-            Token token = tokenHandler.CreateAccessToken(accessTokenLifeTime);
-            return token;
+                Token token = tokenHandler.CreateAccessToken(accessTokenLifeTime);
+                await this.userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 10);
+                return token;
+            }
 
+            throw new Exception("Invalid external Authentication.");       
         }
 
         public async Task<Token> GoogleLoginAsync(string idToken, int accessTokenLifeTime)
@@ -85,8 +90,9 @@ namespace ETicaretAPI.Persistence.Services
             SignInResult result = await this.signInManager.CheckPasswordSignInAsync(user, password, false);
             if (result.Succeeded)
             {
-                return this.tokenHandler.CreateAccessToken(accessTokenLifeTime);
-                
+                Token token = this.tokenHandler.CreateAccessToken(accessTokenLifeTime);
+                await this.userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 10);
+                return token;
             }
 
             throw new AuthenticationErrorException();
@@ -114,6 +120,18 @@ namespace ETicaretAPI.Persistence.Services
             }
             
             throw new Exception("Invalid external Authentication.");
+        }
+
+        public async Task<Token> RefreshTokenLoginAsync(string refreshToken)
+        {
+           AppUser? user = await  this.userManager.Users.FirstOrDefaultAsync(user => user.RefreshToken == refreshToken);
+            if (user != null && user?.RefreshTokenEndDate > DateTime.UtcNow)
+            {
+               Token token  = this.tokenHandler.CreateAccessToken(60);
+               await this.userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 10);
+                return token;
+            }
+            throw new NotFoundUserException();
         }
     }
 }

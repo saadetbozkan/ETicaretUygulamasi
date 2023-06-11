@@ -2,6 +2,7 @@
 using ETicaretAPI.Application.Features.Commands.AppUser.FacebookLoginUser;
 using ETicaretAPI.Application.Features.Commands.AppUser.GoogleLoginUser;
 using ETicaretAPI.Application.Features.Commands.AppUser.LoginUser;
+using ETicaretAPI.Application.Features.Commands.AppUser.RefreshToken;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,6 +32,13 @@ namespace ETicaretAPI.API.Controllers
         public async Task<IActionResult> Login(LoginUserCommandRequest loginUserCommandRequest)
         {
             LoginUserCommandResponse response = await this.mediator.Send(loginUserCommandRequest);
+            return Ok(response);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> RefreshTokenLogin([FromBody]RefreshTokenLoginCommandRequest refreshTokenLoginCommandRequest)
+        {
+            RefreshTokenLoginCommandResponse response = await this.mediator.Send(refreshTokenLoginCommandRequest);
             return Ok(response);
         }
 
