@@ -1,6 +1,7 @@
 ﻿using ETicaretAPI.Application.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,16 +13,18 @@ namespace ETicaretAPI.Application.Features.Queries.ProductImageFile.GetProductIm
     public class GetProductImageQueryHandler : IRequestHandler<GetProductImageQueryRequest, List<GetProductImageQueryResponse>>
     {
         readonly IProductReadRepository productReadRepository;
+        readonly ILogger<GetProductImageQueryHandler> logger;
 
-        public GetProductImageQueryHandler(IProductReadRepository productReadRepository)
+        public GetProductImageQueryHandler(IProductReadRepository productReadRepository, ILogger<GetProductImageQueryHandler> logger)
         {
             this.productReadRepository = productReadRepository;
+            this.logger = logger;
         }
 
         public async Task<List<GetProductImageQueryResponse>> Handle(GetProductImageQueryRequest request, CancellationToken cancellationToken)
         {
             Domain.Entities.Product? product = await this.productReadRepository.Table.Include(p => p.ProductImageFiles).FirstOrDefaultAsync(p => p.Id == Guid.Parse(request.Id));
-
+            this.logger.LogInformation("Ürünün resimleri listelendi.");
 
             return product?.ProductImageFiles.Select(p => new GetProductImageQueryResponse
                 {

@@ -1,6 +1,7 @@
 ﻿using ETicaretAPI.Application.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,13 @@ namespace ETicaretAPI.Application.Features.Commands.ProductImageFile.RemoveProdu
     {
         readonly IProductReadRepository productReadRepository;
         readonly IProductWriteRepository productWriteRepository;
+        readonly ILogger<RemoveProductImageCommandHandler> logger;
 
-        public RemoveProductImageCommandHandler(IProductReadRepository productReadRepository, IProductWriteRepository productWriteRepository)
+        public RemoveProductImageCommandHandler(IProductReadRepository productReadRepository, IProductWriteRepository productWriteRepository, ILogger<RemoveProductImageCommandHandler> logger)
         {
             this.productReadRepository = productReadRepository;
             this.productWriteRepository = productWriteRepository;
+            this.logger = logger;
         }
 
         public async Task<RemoveProductImageCommandResponse> Handle(RemoveProductImageCommandRequest request, CancellationToken cancellationToken)
@@ -28,6 +31,7 @@ namespace ETicaretAPI.Application.Features.Commands.ProductImageFile.RemoveProdu
             if(productImageFile != null)
             product?.ProductImageFiles.Remove(productImageFile);
             await this.productWriteRepository.SaveAsync();
+            this.logger.LogInformation("Ürünün resmi silindi.");
             return new();
         }
     }

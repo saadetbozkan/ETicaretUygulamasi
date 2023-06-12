@@ -3,16 +3,19 @@ using ETicaretAPI.Application.DTOs.User;
 using ETicaretAPI.Application.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 
 namespace ETicaretAPI.Application.Features.Commands.AppUser.CreateUser
 {
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommandRequest, CreateUserCommandResponse>
     {
         readonly IUserService userService;
+        readonly ILogger<CreateUserCommandHandler> logger;
 
-        public CreateUserCommandHandler(IUserService userService)
+        public CreateUserCommandHandler(IUserService userService, ILogger<CreateUserCommandHandler> logger)
         {
             this.userService = userService;
+            this.logger = logger;
         }
 
         public async Task<CreateUserCommandResponse> Handle(CreateUserCommandRequest request, CancellationToken cancellationToken)
@@ -25,7 +28,7 @@ namespace ETicaretAPI.Application.Features.Commands.AppUser.CreateUser
                 NameSurname = request.NameSurname,
                 PasswordConfirm = request.PasswordConfirm
             });
-            
+            this.logger.LogInformation("Kullanıcı oluşturuldu.");
             return new()
             {
                 Message = response.Message,

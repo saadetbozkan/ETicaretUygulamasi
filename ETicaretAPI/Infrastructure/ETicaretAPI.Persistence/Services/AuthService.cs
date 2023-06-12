@@ -56,7 +56,7 @@ namespace ETicaretAPI.Persistence.Services
             if (result)
             {
                 await this.userManager.AddLoginAsync(user, info);
-                Token token = tokenHandler.CreateAccessToken(accessTokenLifeTime);
+                Token token = tokenHandler.CreateAccessToken(accessTokenLifeTime, user);
                 await this.userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 10);
                 return token;
             }
@@ -90,7 +90,7 @@ namespace ETicaretAPI.Persistence.Services
             SignInResult result = await this.signInManager.CheckPasswordSignInAsync(user, password, false);
             if (result.Succeeded)
             {
-                Token token = this.tokenHandler.CreateAccessToken(accessTokenLifeTime);
+                Token token = this.tokenHandler.CreateAccessToken(accessTokenLifeTime, user);
                 await this.userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 10);
                 return token;
             }
@@ -127,7 +127,7 @@ namespace ETicaretAPI.Persistence.Services
            AppUser? user = await  this.userManager.Users.FirstOrDefaultAsync(user => user.RefreshToken == refreshToken);
             if (user != null && user?.RefreshTokenEndDate > DateTime.UtcNow)
             {
-               Token token  = this.tokenHandler.CreateAccessToken(60);
+               Token token  = this.tokenHandler.CreateAccessToken(60, user);
                await this.userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 10);
                 return token;
             }

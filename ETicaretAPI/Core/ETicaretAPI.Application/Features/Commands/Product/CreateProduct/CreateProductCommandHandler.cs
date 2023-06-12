@@ -1,5 +1,7 @@
-﻿using ETicaretAPI.Application.Repositories;
+﻿using ETicaretAPI.Application.Features.Commands.Product.UpdateProduct;
+using ETicaretAPI.Application.Repositories;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +14,12 @@ namespace ETicaretAPI.Application.Features.Commands.Product.CreateProduct
     public class CreateProductCommandHandler : IRequestHandler<CreateProductCommandRequest, CreateProductCommandResponse>
     {
         readonly IProductWriteRepository productWriteRepository;
+        readonly ILogger<CreateProductCommandHandler> logger;
 
-        public CreateProductCommandHandler(IProductWriteRepository productWriteRepository)
+        public CreateProductCommandHandler(IProductWriteRepository productWriteRepository, ILogger<CreateProductCommandHandler> logger)
         {
             this.productWriteRepository = productWriteRepository;
+            this.logger = logger;
         }
 
         public async Task<CreateProductCommandResponse> Handle(CreateProductCommandRequest request, CancellationToken cancellationToken)
@@ -27,6 +31,7 @@ namespace ETicaretAPI.Application.Features.Commands.Product.CreateProduct
                 Stock = request.Stock
             });
             await this.productWriteRepository.SaveAsync();
+            this.logger.LogInformation("Ürün eklendi.");
             return new CreateProductCommandResponse();
         }
     }
