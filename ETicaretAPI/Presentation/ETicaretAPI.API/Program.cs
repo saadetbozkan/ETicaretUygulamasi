@@ -9,6 +9,7 @@ using ETicaretAPI.Infrastructure.Filters;
 using ETicaretAPI.Infrastructure.Services.Storage.Azure;
 using ETicaretAPI.Infrastructure.Services.Storage.Local;
 using ETicaretAPI.Persistence;
+using ETicaretAPI.SignalR;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpLogging;
@@ -28,6 +29,9 @@ builder.Services.AddPersistenceServices();
 builder.Services.AddInfrastructureServices();
 //Add Application Services
 builder.Services.AddApplicationServices();
+//Add SignalR Services
+builder.Services.AddSignalRServices();
+
 
 builder.Services.AddStorage<LocalStorage>();
 //builder.Services.AddStorage<AzureStorage>();
@@ -37,8 +41,7 @@ builder.Services.AddStorage<LocalStorage>();
 
 //Add Cors
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy 
-    => policy.WithOrigins("https://localhost:4200", "http://localhost:4200").AllowAnyHeader().AllowAnyMethod()
-
+    => policy.WithOrigins("https://localhost:4200", "http://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials()
 ));
 //Add Serilog
 Logger log = new LoggerConfiguration()
@@ -125,5 +128,7 @@ app.UseAuthorization();
 app.ConfigureAuthenticatedUserLog();
 
 app.MapControllers();
+
+app.MapHubs();
 
 app.Run();
