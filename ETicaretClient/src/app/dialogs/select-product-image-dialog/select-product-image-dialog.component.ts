@@ -55,6 +55,11 @@ export class SelectProductImageDialogComponent extends BaseDialog<SelectProductI
       }
     })
   }
+  showCase(imageId: string){
+    this.spinner.show(SpinnerType.ScaleMuliple)
+    this.productService.changeShowcaseImage(imageId, this.data as string , ()=>
+    this.spinner.hide(SpinnerType.ScaleMuliple));
+  }
 }
 export enum SelectProductImageState{
   Close

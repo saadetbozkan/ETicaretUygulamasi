@@ -24,7 +24,7 @@ namespace ETicaretAPI.Application.Features.Commands.AppUser.FacebookLoginUser
         public async Task<FacebookLoginUserCommandResponse> Handle(FacebookLoginUserCommandRequest request, CancellationToken cancellationToken)
         {
 
-            Token token = await authService.FacebookLoginAsync(request.AuthToken, 60);
+            Token token = await authService.FacebookLoginAsync(request.AuthToken, 60*15);
             this.logger.LogInformation("Kullanıcı facebook ile giriş yaptı.");
 
             return new()

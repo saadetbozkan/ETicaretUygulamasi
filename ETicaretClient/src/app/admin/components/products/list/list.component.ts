@@ -29,13 +29,13 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   async getProducts(){
     this.showSpinner(SpinnerType.JellyBox);
-    const allProdutcs: {totalCount: number; products: List_Product[]} = await this.productService.read(this.paginator ? this.paginator.pageIndex : 0,this.paginator ? this.paginator.pageSize : 5, () =>this.hideSpinner(SpinnerType.JellyBox), errorMessage => this.alertifyService.message(errorMessage,{
+    const allProdutcs: {totalProductCount: number; products: List_Product[]} = await this.productService.read(this.paginator ? this.paginator.pageIndex : 0,this.paginator ? this.paginator.pageSize : 5, () =>this.hideSpinner(SpinnerType.JellyBox), errorMessage => this.alertifyService.message(errorMessage,{
       dismissOthers: true,
       messageType: MessageType.Error,
       position: Position.BottomLeft
     }));
     this.dataSource = new MatTableDataSource<List_Product>(allProdutcs.products);
-    this.paginator.length = allProdutcs.totalCount;
+    this.paginator.length = allProdutcs.totalProductCount;
   }
 
   addProductImage(id: string){
