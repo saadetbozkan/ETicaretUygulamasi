@@ -1,1 +1,41 @@
-<p>baskets works!</p>
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #BAD6FD;">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Alışveriş Sepeti</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="background-color: #f5f5f5;">
+                <table class="table" >
+                    <caption>Total: </caption>
+                    <thead class="table-primary">
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Ürün</th>
+                        <th scope="col">Fiyat</th>
+                        <th colspan="2">Adet</th>
+                        
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class={{basketItem.basketItemId}} *ngFor="let basketItem of basketItems;let i=index" >
+                        <td scope="row">{{i + 1}}</td>
+                        <td>{{basketItem.name}}</td>
+                        <td>{{basketItem.price}}</td>
+                        <td><input type="number" [value] = "basketItem.quantity" style="width: 45px" data-id="{{basketItem.basketItemId}}" (change)="changeQuantity($event)"></td>
+                        <td>
+                          <button class="btn border border-0" (click)="removeBasketItem(basketItem.basketItemId)"><img style="cursor: pointer; border-bottom:  #BAD6FD;"
+                            src="../../../../../assets/remove.png" width="25" height="25" ></button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>      
+            </div>
+            <div class="modal-footer" style="background-color: #BAD6FD;">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sepeti Kapat</button>
+                <button type="button" class="btn btn-primary" >Alışverişi Tamamla</button>
+            </div>
+        </div>
+    </div>
+</div>

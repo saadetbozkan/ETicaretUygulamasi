@@ -1,11 +1,11 @@
-<div class="row" style="margin: 2px;">
-  <div class="card" style="width: 12rem; float: left;margin: 4px" *ngFor="let product of products">
+<div class="row" style="margin: 10px;">
+  <div class="card" style="width: 12rem; float: left; margin: 5px;" *ngFor="let product of products">
     <img *ngIf="!product.productImageFiles.length" src="../../../../../assets/product-default.png" class="card-img-top" alt="...">
     <img *ngIf="product.productImageFiles.length" src="{{baseUrl.url}}/{{product.imagePath}}" class="card-img-top" alt="...">
     <div class="card-body">
       <h5 class="card-title">{{product.name}}</h5>
-      <p class="card-text">{{product.price | currency:"₺"}} | Stock : {{product.stock}}</p>
-      <a href="#" class="btn products-list-btn">Sepete ekle</a>
+      <p class="card-text">{{product.price | currency:"₺"}} |<br> Stock : {{product.stock}}</p>
+      <a class="btn products-list-btn" (click)="addToBasket(product)">Sepete ekle</a>
     </div>
   </div>
 </div>

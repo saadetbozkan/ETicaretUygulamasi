@@ -33,12 +33,13 @@ export class UserAuthService {
     callBackFunction();
   }
   
-  async refreshTokenLogin(refreshToken: string, callBackFunction?: () => void): Promise<any> {
+  async refreshTokenLogin(refreshToken: string, callBackFunction?: (state) => void): Promise<any> {
     const observable: Observable<any | TokenResponse> = this.httpClientService.post<any | TokenResponse>({
       controller: "auth",
       action: "RefreshTokenLogin"
     }, {refreshToken: refreshToken});
 
+   try {
     const tokenResponse : TokenResponse = await firstValueFrom(observable) as TokenResponse;
 
     if(tokenResponse){
@@ -46,7 +47,11 @@ export class UserAuthService {
       localStorage.setItem("refreshToken", tokenResponse.token.refreshToken);
     }
    
-    callBackFunction();
+    callBackFunction(tokenResponse ? true : false);
+    
+   } catch (error) {
+    callBackFunction(false);
+   }
   }
 
   async googleLogin(user: SocialUser, callBackFunction?: () => void): Promise<any> {

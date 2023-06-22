@@ -20,10 +20,6 @@
                                 routerLink="products">Ürünler</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link app-navbar-item" routerLinkActive="active" aria-current="page"
-                                routerLink="baskets">Sepet</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link app-navbar-item register" routerLinkActive="active" aria-current="page"
                                 routerLink="register" *ngIf="!authService.isAuthenticated">Kayıt ol</a>
                         </li>
@@ -59,8 +55,14 @@
                     </ul>
                     <form class="d-flex" role="search">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn app-btn" type="submit">Ara</button>
+                        <button class="btn app-btn" type="submit"><img style="cursor: pointer"
+                                src="../../../../../assets/search.png" width="25" height="25"></button>
                     </form>
+                    <div class="d-flex">
+                        <button class="btn app-btn" type="submit" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop"> <img style="cursor: pointer"
+                                src="../../../../../assets/basket.png" width="45" height="40"></button>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -79,3 +81,4 @@
     type="ball-scale-multiple"></ngx-spinner>
 <ngx-spinner bdColor="rgba(0,0,0,0.6)" name="ball-triangle" size="default" color="#8D9CF4"
     type="ball-triangle-path"></ngx-spinner>
+    <app-baskets></app-baskets>

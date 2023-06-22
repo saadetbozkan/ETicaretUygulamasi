@@ -12,18 +12,13 @@
     color: #5f5f60;
 }
 
-.app-btn {
-    background-color: #687cf1;
-    border-color: #687cf1;
-    border-radius: 25px;
-}
-
 .app-btn:hover {
-    background-color: #8D9CF4;
+    opacity: 0.6;
 }
 
 .app-btn:active {
-    color: #687cf1;
+    opacity: 1;
+    border-color: #8D9CF4;
 }
 
 .active {
