@@ -23,6 +23,8 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpContextAccessor();
+
 // Add Persistence Services.
 builder.Services.AddPersistenceServices();
 // Add Infrastructure Services.
