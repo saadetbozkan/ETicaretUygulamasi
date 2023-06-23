@@ -1,8 +1,10 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { CustomToastrService, ToasterMessageType, ToasterPosition } from 'src/app/services/ui/custom-toastr.service';
 import { AuthService } from './services/common/auth.service';
-import { Component } from '@angular/core';
-import { Position } from './services/admin/alertify.service';
+import { Component, ViewChild } from '@angular/core';
+import { DynamicLoadComponentDirective } from './directivecs/common/dynamic-load-component.directive';
+import { ComponentType, DynamicLoadComponentService } from './services/common/dynamic-load-component.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,9 +14,14 @@ export class AppComponent {
   title(title: "ETicaretClient") {
     throw new Error('Method not implemented.');
   }
+
+  @ViewChild(DynamicLoadComponentDirective,{static: true})
+  dynamicLoadComponentDirective: DynamicLoadComponentDirective;
+
   constructor(public authService: AuthService, 
     private toastrService: CustomToastrService,
-    private router: Router) {
+    private router: Router,
+    private dynamicLoadComponentService: DynamicLoadComponentService)  {
     authService.identityCheck();
   }
   signOut(){
@@ -26,7 +33,9 @@ export class AppComponent {
     this.toastrService.message("Oturum kapatılmıştır", "Oturum Kapatıldı.",{
       messageType: ToasterMessageType.Warning,
       position: ToasterPosition.TopRight
-    });
-   
+    });   
+  }
+  loadComponent(){
+    this.dynamicLoadComponentService.loadComponent(ComponentType.BasketsComponent, this.dynamicLoadComponentDirective.viewContainerRef)
   }
 }
