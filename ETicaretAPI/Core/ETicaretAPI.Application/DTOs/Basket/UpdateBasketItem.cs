@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ETicaretAPI.Application.ViewModels.Basket
+namespace ETicaretAPI.Application.DTOs.Basket
 {
-    public class VM_Create_BasketItem
+    public class UpdateBasketItem
     {
-        public string ProductId { get; set; }
+        public string BasketItemId { get; set; }
         public int Quantity { get; set; }
     }
 }

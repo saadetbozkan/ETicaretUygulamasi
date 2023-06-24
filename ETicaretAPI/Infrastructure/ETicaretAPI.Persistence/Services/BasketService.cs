@@ -1,17 +1,11 @@
 ﻿using ETicaretAPI.Application.Abstractions.Services;
+using ETicaretAPI.Application.DTOs.Basket;
 using ETicaretAPI.Application.Repositories;
-using ETicaretAPI.Application.ViewModels.Basket;
 using ETicaretAPI.Domain.Entities;
 using ETicaretAPI.Domain.Entities.Identity;
-using ETicaretAPI.Persistence.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ETicaretAPI.Persistence.Services
 {
@@ -56,9 +50,9 @@ namespace ETicaretAPI.Persistence.Services
                               };
 
                 Basket? targetBasket = null;
-                if(_basket.Any(b => b.Order is null))
+                if (_basket.Any(b => b.Order is null))
                 {
-                    targetBasket = _basket.FirstOrDefault(b=> b.Order is null)?.Basket;
+                    targetBasket = _basket.FirstOrDefault(b => b.Order is null)?.Basket;
                 }
                 else
                 {
@@ -70,12 +64,12 @@ namespace ETicaretAPI.Persistence.Services
             }
             throw new Exception("Beklenmeyen bir hata ile karşılaşıldı.");
         }
-        public async Task AddItemToBasketAsync(VM_Create_BasketItem basketItem)
+        public async Task AddItemToBasketAsync(CreateBasketItem basketItem)
         {
             Basket? basket = await ContextUser();
-            if(basket != null)
+            if (basket != null)
             {
-               BasketItem _basketItem = await this.basketItemReadRepository.GetSingleAsync(bi => bi.BasketId == basket.Id && bi.ProductId == Guid.Parse(basketItem.ProductId));
+                BasketItem _basketItem = await this.basketItemReadRepository.GetSingleAsync(bi => bi.BasketId == basket.Id && bi.ProductId == Guid.Parse(basketItem.ProductId));
                 if (_basketItem != null)
                     _basketItem.Quantity++;
                 else
@@ -85,7 +79,7 @@ namespace ETicaretAPI.Persistence.Services
                         ProductId = Guid.Parse(basketItem.ProductId),
                         Quantity = basketItem.Quantity,
 
-                    }) ;
+                    });
                 await this.basketItemWriteRepository.SaveAsync();
             }
         }
@@ -93,7 +87,7 @@ namespace ETicaretAPI.Persistence.Services
         public async Task<List<BasketItem>> GetBasketItemsAsync()
         {
             Basket? basket = await ContextUser();
-            Basket? result= await this.basketReadRepository.Table.Include(b => b.BasketItems)
+            Basket? result = await this.basketReadRepository.Table.Include(b => b.BasketItems)
                 .ThenInclude(bi => bi.Product)
                 .FirstOrDefaultAsync(b => b.Id == basket.Id);
 
@@ -108,18 +102,27 @@ namespace ETicaretAPI.Persistence.Services
                 this.basketItemWriteRepository.Remove(basketItem);
                 await this.basketItemWriteRepository.SaveAsync();
             }
-                
+
         }
 
-        public async Task UpdateQentityAsync(VM_Update_BasketItem basketItem)
+        public async Task UpdateQentityAsync(UpdateBasketItem basketItem)
         {
             BasketItem? _basketItem = await basketItemReadRepository.GetByIdAsync(basketItem.BasketItemId);
-            if(_basketItem != null)
+            if (_basketItem != null)
             {
                 _basketItem.Quantity = basketItem.Quantity;
                 await this.basketItemWriteRepository.SaveAsync();
             }
-            
         }
+        public Basket? GetUserActiveBasket
+            {
+                get
+                {
+                    Basket? basket = ContextUser().Result; 
+                    return basket;
+                }
+              
+            }
+
     }
 }
