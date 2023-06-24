@@ -7,12 +7,16 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { SelectProductImageDialogComponent } from './select-product-image-dialog/select-product-image-dialog.component';
 import { MatCardModule } from '@angular/material/card';
 import { SafePipeModule } from 'safe-pipe';
+import { BasketItemRemoveDialogComponent } from './basket-item-remove-dialog/basket-item-remove-dialog.component';
+import { ShoppingComplateDialogComponent } from './shopping-complate-dialog/shopping-complate-dialog.component';
 
 
 @NgModule({
   declarations: [
     DeleteDialogComponent,
-    SelectProductImageDialogComponent
+    SelectProductImageDialogComponent,
+    BasketItemRemoveDialogComponent,
+    ShoppingComplateDialogComponent
       ],
   imports: [
     CommonModule,

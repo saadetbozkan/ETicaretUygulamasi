@@ -60,7 +60,7 @@
                     </form>
                     <div class="d-flex">
                         <button class="btn app-btn" type="submit" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop" (click)="loadComponent()"> <img style="cursor: pointer"
+                            data-bs-target="#basketModal" (click)="loadComponent()"> <img style="cursor: pointer"
                                 src="../../../../../assets/basket.png" width="45" height="40"></button>
                     </div>
                 </div>
@@ -82,7 +82,7 @@
 <ngx-spinner bdColor="rgba(0,0,0,0.6)" name="ball-triangle" size="default" color="#8D9CF4"
     type="ball-triangle-path"></ngx-spinner>
 
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+<div class="modal fade" id="basketModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <ng-template appDynamicLoadComponent></ng-template>
