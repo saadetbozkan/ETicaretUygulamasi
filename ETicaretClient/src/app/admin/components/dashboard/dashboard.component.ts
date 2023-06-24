@@ -15,22 +15,20 @@ import { HubUrls } from 'src/app/constants/hub-urls';
 export class DashboardComponent extends BaseComponent implements OnInit {
 
   constructor(private alertify: AlertifyService, spinner: NgxSpinnerService, private signalRService: SignalRService) {
-    super(spinner);
-    signalRService.start(HubUrls.OrderHub);
-    signalRService.start(HubUrls.ProductHub);
+    super(spinner)
     
    }
 
   ngOnInit(): void {
     //this.showSpinner(SpinnerType.ScaleMuliple);
-    this.signalRService.on(ReceiveFunctions.ProductAddedMessageReceiveFunction, message =>{
+    this.signalRService.on(HubUrls.ProductHub, ReceiveFunctions.ProductAddedMessageReceiveFunction, message =>{
       this.alertify.message(message,{
         messageType: MessageType.Notify,
         position: Position.TopRight
       })
     });
 
-    this.signalRService.on(ReceiveFunctions.OrderAddedMessageReceiveFunction, message =>{
+    this.signalRService.on(HubUrls.OrderHub, ReceiveFunctions.OrderAddedMessageReceiveFunction, message =>{
       this.alertify.message(message,{
         messageType: MessageType.Notify,
         position: Position.TopCenter
