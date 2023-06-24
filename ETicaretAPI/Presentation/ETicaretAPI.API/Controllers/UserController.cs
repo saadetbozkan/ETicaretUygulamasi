@@ -1,6 +1,4 @@
 ﻿using ETicaretAPI.Application.Features.Commands.AppUser.CreateUser;
-using ETicaretAPI.Application.Features.Commands.AppUser.GoogleLoginUser;
-using ETicaretAPI.Application.Features.Commands.AppUser.LoginUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

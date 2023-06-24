@@ -1,11 +1,11 @@
 ﻿using ETicaretAPI.Application.Abstractions.Storage;
-using ETicaretAPI.Infrastructure.Enums;
-using ETicaretAPI.Infrastructure.Services.Storage.Local;
-using ETicaretAPI.Infrastructure.Services.Storage.Azure;
-using Microsoft.Extensions.DependencyInjection;
-using ETicaretAPI.Infrastructure.Services.Storage;
-using ETicaretAPI.Infrastructure.Services.Token;
 using ETicaretAPI.Application.Abstractions.Token;
+using ETicaretAPI.Infrastructure.Enums;
+using ETicaretAPI.Infrastructure.Services.Storage;
+using ETicaretAPI.Infrastructure.Services.Storage.Azure;
+using ETicaretAPI.Infrastructure.Services.Storage.Local;
+using ETicaretAPI.Infrastructure.Services.Token;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ETicaretAPI.Infrastructure
 {

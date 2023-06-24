@@ -1,8 +1,6 @@
 ﻿using ETicaretAPI.Application.Abstractions.Services;
 using ETicaretAPI.Application.DTOs.User;
-using ETicaretAPI.Application.Exceptions;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
 namespace ETicaretAPI.Application.Features.Commands.AppUser.CreateUser

@@ -1,5 +1,4 @@
 ﻿using Serilog.Context;
-using System.Runtime.CompilerServices;
 
 namespace ETicaretAPI.API.Middlewares
 {

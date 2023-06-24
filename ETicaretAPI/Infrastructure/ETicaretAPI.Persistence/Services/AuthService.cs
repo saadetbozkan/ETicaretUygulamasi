@@ -6,13 +6,10 @@ using ETicaretAPI.Application.DTOs.NewFolder;
 using ETicaretAPI.Application.Exceptions;
 using ETicaretAPI.Domain.Entities.Identity;
 using Google.Apis.Auth;
-using Google.Apis.Auth.OAuth2;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace ETicaretAPI.Persistence.Services
 {

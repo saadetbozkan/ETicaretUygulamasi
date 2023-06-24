@@ -1,15 +1,10 @@
 ﻿using ETicaretAPI.Application.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ETicaretAPI.Application.Features.Queries.Product.GetByIdProduct
 {
-     public class GetByIdProductQueryHandler : IRequestHandler<GetByIdProductQueryRequest, GetByIdProductQueryResponse>
+    public class GetByIdProductQueryHandler : IRequestHandler<GetByIdProductQueryRequest, GetByIdProductQueryResponse>
     {
         readonly IProductReadRepository productReadRepository;
         readonly ILogger<GetByIdProductQueryHandler> logger;
