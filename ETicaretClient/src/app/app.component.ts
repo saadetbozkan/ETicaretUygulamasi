@@ -2,8 +2,8 @@ import { Router } from '@angular/router';
 import { CustomToastrService, ToasterMessageType, ToasterPosition } from 'src/app/services/ui/custom-toastr.service';
 import { AuthService } from './services/common/auth.service';
 import { Component, ViewChild } from '@angular/core';
-import { DynamicLoadComponentDirective } from './directivecs/common/dynamic-load-component.directive';
 import { ComponentType, DynamicLoadComponentService } from './services/common/dynamic-load-component.service';
+import { DynamicLoadComponentDirective } from './directives/common/dynamic-load-component.directive';
 
 @Component({
   selector: 'app-root',
