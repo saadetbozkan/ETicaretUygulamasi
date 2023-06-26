@@ -1,15 +1,17 @@
 table {
-    width: 98%;
-    background-color: #fdc9c9;
-    margin: 5px;
+    width: 100%;
+    background-color: #ffe5eb;
     
   }
-  mat-paginator {
-    font-size: 12px;
-    background-color: #f8a2b9;
-    border-radius: 10px;
-    margin: 5px 5px;
+  .mat-paginator {
+    font-size: small;
+    background-color: #dc687b;
+    border-radius: 5px;
   }  
   td, th {
     font-size: 12px;
+  }
+  .product-list-table-header{
+    font-weight: bold;
+    font-size: medium;
   }

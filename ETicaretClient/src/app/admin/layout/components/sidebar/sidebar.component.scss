@@ -15,6 +15,30 @@
 
 .active {
     color: black;
-    font-size: 1.3rem;
-    background-color: #f9a3ba;
+    font-size:x-large;
+    background-color: #dc687b;
+    
+}
+        
+.sidebar-item{
+    font-size: xx-large;
+    font-weight: bold;
+    color: black; 
+    font-size: xx-large;
+    background-color: #f8a2b9; 
+    border-radius:5px 45px;
+    margin: 30px;
+    height: 65px; 
+    text-align: center; 
+    border : 1px solid #f8a2b9;
+    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0px 8px 10px 1px rgba(0, 0, 0, 0.14),
+     0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+.sidebar-list{
+    margin: 30px; border-radius: 5px;
+    background-color: #ffe5eb;
+    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0px 8px 10px 1px rgba(0, 0, 0, 0.14),
+     0px 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
