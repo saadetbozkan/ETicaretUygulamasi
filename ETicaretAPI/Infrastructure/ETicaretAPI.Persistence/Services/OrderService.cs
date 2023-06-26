@@ -40,6 +40,7 @@ namespace ETicaretAPI.Persistence.Services
                     .ThenInclude(bi => bi.Product)
                 .Select(o => new ListOrder
                 {
+                    Id = (o.Id).ToString(),
                     CreatedDate = o.CreateDate,
                     OrderCode = o.OrderCode,
                     TotalPrice = o.Basket.BasketItems.Sum(bi => bi.Product.Price * bi.Quantity),
@@ -48,9 +49,32 @@ namespace ETicaretAPI.Persistence.Services
             var data = query.Skip(page * size).Take(size);
 
             var orderCount = await query.CountAsync();
-            var listOrders = await query.ToListAsync();
+            var listOrders = await data.ToListAsync();
 
             return (orderCount, listOrders);
+        }
+
+        public async Task<SingleOrder> GetOrderByIdAsync(string id)
+        {
+            var data = await this.orderReadRepository.Table
+                .Include(o => o.Basket)
+                .ThenInclude(b => b.BasketItems)
+                .ThenInclude(bi => bi.Product)
+                .FirstOrDefaultAsync(o => o.Id == Guid.Parse(id));
+            return new()
+            {
+                Id = data.Id.ToString(),
+                BasketItem = data.Basket.BasketItems.Select(bi => new
+                {
+                    bi.Product.Name,
+                    bi.Product.Price,
+                    bi.Quantity
+                }),
+                Address = data.Address,
+                OrderCode = data.OrderCode,
+                CreatedDate = data.CreateDate,
+                Description = data.Description
+            };
         }
     }
 }
