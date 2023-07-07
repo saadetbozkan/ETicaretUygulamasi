@@ -4,11 +4,14 @@ using ETicaretAPI.Application.DTOs;
 using ETicaretAPI.Application.DTOs.Facebook;
 using ETicaretAPI.Application.DTOs.NewFolder;
 using ETicaretAPI.Application.Exceptions;
+using ETicaretAPI.Application.Helpers;
 using ETicaretAPI.Domain.Entities.Identity;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Text;
 using System.Text.Json;
 
 namespace ETicaretAPI.Persistence.Services
@@ -21,7 +24,9 @@ namespace ETicaretAPI.Persistence.Services
         readonly SignInManager<AppUser> signInManager;
         readonly HttpClient httpClient;
         readonly IUserService userService;
-        public AuthService(IConfiguration configuration, UserManager<AppUser> userManager, ITokenHandler tokenHandler, SignInManager<AppUser> signInManager, IHttpClientFactory httpClientFactory, IUserService userService)
+        readonly IMailService mailService;
+
+        public AuthService(IConfiguration configuration, UserManager<AppUser> userManager, ITokenHandler tokenHandler, SignInManager<AppUser> signInManager, IHttpClientFactory httpClientFactory, IUserService userService, IMailService mailService)
         {
             this.configuration = configuration;
             this.userManager = userManager;
@@ -29,6 +34,7 @@ namespace ETicaretAPI.Persistence.Services
             this.signInManager = signInManager;
             this.httpClient = httpClientFactory.CreateClient();
             this.userService = userService;
+            this.mailService = mailService;
         }
 
         async Task<Token> CreateUserExternalAsync(AppUser user, string email, string name, UserLoginInfo info, int accessTokenLifeTime)
@@ -54,7 +60,7 @@ namespace ETicaretAPI.Persistence.Services
             {
                 await this.userManager.AddLoginAsync(user, info);
                 Token token = tokenHandler.CreateAccessToken(accessTokenLifeTime, user);
-                await this.userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 60*5);
+                await this.userService.UpdateRefreshTokenAsync(token.RefreshToken, user, token.Expiration, 60*5);
                 return token;
             }
 
@@ -88,7 +94,7 @@ namespace ETicaretAPI.Persistence.Services
             if (result.Succeeded)
             {
                 Token token = this.tokenHandler.CreateAccessToken(accessTokenLifeTime, user);
-                await this.userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 60*5);
+                await this.userService.UpdateRefreshTokenAsync(token.RefreshToken, user, token.Expiration, 60*5);
                 return token;
             }
 
@@ -125,10 +131,35 @@ namespace ETicaretAPI.Persistence.Services
             if (user != null && user?.RefreshTokenEndDate > DateTime.UtcNow)
             {
                Token token  = this.tokenHandler.CreateAccessToken(60*15, user);
-               await this.userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 60*5);
+               await this.userService.UpdateRefreshTokenAsync(token.RefreshToken, user, token.Expiration, 60*5);
                 return token;
             }
             throw new NotFoundUserException();
+        }
+
+        public async Task PasswordResetAsync(string email)
+        {
+            AppUser user = await this. userManager.FindByEmailAsync(email);
+            if(user != null)
+            {
+                string resetToken = await this.userManager.GeneratePasswordResetTokenAsync(user);
+                resetToken = resetToken.UrlEncode();
+
+                await this.mailService.SendPasswordResetMailAsync(email, user.Id, resetToken);
+            }
+        }
+
+        public async Task<bool> VerifyResetTokenAsync(string resetToken, string userId)
+        {
+            AppUser user = await this.userManager.FindByIdAsync(userId);
+            if(user != null)
+            {
+
+                resetToken = resetToken.UrlDecode();
+               
+                return await this.userManager.VerifyUserTokenAsync(user, this.userManager.Options.Tokens.PasswordResetTokenProvider, "ResetPassword", resetToken);
+            }
+            return false;
         }
     }
 }

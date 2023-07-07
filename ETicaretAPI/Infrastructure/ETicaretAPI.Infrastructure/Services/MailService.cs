@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using System.Net;
 using System.Net.Mail;
+using System.Text;
 
 namespace ETicaretAPI.Infrastructure.Services
 {
@@ -14,12 +15,12 @@ namespace ETicaretAPI.Infrastructure.Services
             this.config = config;
         }
 
-        public async Task SendMessageAsync(string to, string subject, string body, bool isBodyHtml = true)
+        public async Task SendMailAsync(string to, string subject, string body, bool isBodyHtml = true)
         {
-           await SendMessageAsync(new[] { to }, subject, body, isBodyHtml);
+           await SendMailAsync(new[] { to }, subject, body, isBodyHtml);
         }
 
-        public async Task SendMessageAsync(string[] tos, string subject, string body, bool isBodyHtml = true)
+        public async Task SendMailAsync(string[] tos, string subject, string body, bool isBodyHtml = true)
         {
             MailMessage mail = new();
             mail.IsBodyHtml = isBodyHtml;
@@ -34,6 +35,21 @@ namespace ETicaretAPI.Infrastructure.Services
             smtp.EnableSsl = true;
             smtp.Host = config["Mail:Host"];
             await smtp.SendMailAsync(mail);
+        }
+
+        public async Task SendPasswordResetMailAsync(string to, string userId, string resetToken)
+        {
+            StringBuilder mail = new();
+            mail.Append("Merhaba,<br>Eğer yeni şifre talebinde bulunduysanız aşağıdaki linketen şifrenizi yenileyebilirsiniz.<br><strong> <a target=\"_blank\" href=\"");
+            mail.Append(this.config["AngularClientUrl"]);
+            mail.Append("/update-password/");  
+            mail.Append(userId);
+            mail.Append("/");
+            mail.Append(resetToken);
+            mail.Append("\">Yeni şifre talebi için tıklayınız...</a></strong><br><br><span style=\"font-size:12px;\"> NOT: Şifre değiştirme talebiniz yoksa bu maili ciddiye almayınız.</span><br>Saygılarımızla...<br><br><br> - Mini E-Ticaret -");
+
+            await SendMailAsync(to, "Şifre Yenileme Talebi", mail.ToString());
+
         }
     }
 }
