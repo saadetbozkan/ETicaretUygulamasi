@@ -19,6 +19,9 @@ namespace ETicaretAPI.Persistence.Contexts
         public DbSet<InvoiceFile> InvoiceFiles { get; set; }
         public DbSet<Basket> Baskets { get; set; }
         public DbSet<BasketItem> BasketItems { get; set; }
+        public DbSet<ComplatedOrder> CopmlatedOrders { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -33,6 +36,11 @@ namespace ETicaretAPI.Persistence.Contexts
                 .HasOne(b => b.Order)
                 .WithOne(o => o.Basket)
                 .HasForeignKey<Order>(b => b.Id);
+
+            builder.Entity<Order>()
+                .HasOne(o => o.ComplatedOrder)
+                .WithOne(co => co.Order)
+                .HasForeignKey<ComplatedOrder>(co => co.OrderId);
 
             base.OnModelCreating(builder);
         }

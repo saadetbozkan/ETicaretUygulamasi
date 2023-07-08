@@ -23,7 +23,8 @@ namespace ETicaretAPI.Application.Features.Queries.Order.GetOrderById
                 CreatedDate = data.CreatedDate,
                 OrderCode = data.OrderCode,
                 Address = data.Address,
-                Description = data.Description
+                Description = data.Description,
+                Complated = data.Complated
             };
         }
     }

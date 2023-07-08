@@ -12,5 +12,7 @@ namespace ETicaretAPI.Domain.Entities
         //public Guid CustomerId { get; set; }
         //public Customer Customer { get; set; }
 
+        public ComplatedOrder ComplatedOrder { get; set; }
+
     }
 }

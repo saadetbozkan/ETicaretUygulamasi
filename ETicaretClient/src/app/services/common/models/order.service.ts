@@ -42,4 +42,13 @@ export class OrderService {
       .catch((errorResponse: HttpErrorResponse) => errorCallBack(errorResponse.message))
     return await firstValueFrom(observable);
   }
+
+  async complateOrder(id: string, successCallBack?: () => void,){
+    const observable: Observable<Order_Detail> = this.httpClientService.get({
+      controller: "orders",
+      action : "complated-order"
+    }, id);
+    successCallBack();
+    return await firstValueFrom(observable);
+  }
 }

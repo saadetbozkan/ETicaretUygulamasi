@@ -4,4 +4,5 @@ export class List_Order{
     userName: string;
     totalPice: number;
     createdDate: Date;
+    complated: boolean;
 }

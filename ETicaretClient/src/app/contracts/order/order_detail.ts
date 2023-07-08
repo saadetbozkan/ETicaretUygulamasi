@@ -5,4 +5,5 @@ export class Order_Detail{
     createdDate: Date;
     address: string;
     description: string;
+    complated: boolean;
 }
