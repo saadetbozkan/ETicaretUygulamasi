@@ -87,17 +87,29 @@ namespace ETicaretAPI.Persistence.Services
             };
         }
 
-        public async Task ComplatedOrderAsync(string id)
+        public async Task<(bool, CompletedOrderDTO)> ComplatedOrderAsync(string id)
         {
-            Order order = await this.orderReadRepository.GetByIdAsync(id);
+            Order? order = await this.orderReadRepository.Table
+                .Include(o => o.Basket)
+                .ThenInclude(b => b.User)
+                .FirstOrDefaultAsync(o => o.Id == Guid.Parse(id));
+
             if(order != null)
             {
                 await this.complatedOrderWriteRepository.AddAsync(new()
                 {
                     OrderId = Guid.Parse(id)
                 });
-                await this.complatedOrderWriteRepository.SaveAsync();
+                return (await this.complatedOrderWriteRepository.SaveAsync() > 0, new() 
+                { 
+                    OrderCode = order.OrderCode,
+                    OrderDate = order.CreateDate,
+                    UserNameSurname = order.Basket.User.NameSurname,
+                    Email = order.Basket.User.Email
+                });
             }
+            return (false, null);
+
         }
     }
 }

@@ -46,15 +46,14 @@ export class OrderDetailDialogComponent extends BaseDialog<OrderDetailDialogComp
       componentType: ComplateOrderDialogComponent,
       data: ComplateOrderState.Yes,
       afterClosed: async () =>{
-        
+         this.spinner.show(SpinnerType.JellyBox);
         await this.orderService.complateOrder(this.data as string, () =>{
-          this.spinner.show(SpinnerType.JellyBox);
           this.alertify.message("Sipariş tamamlandı.",{
             position: Position.TopRight,
             messageType: MessageType.Success
-          })
-          this.spinner.hide(SpinnerType.JellyBox);
+          });
         });
+        this.spinner.hide(SpinnerType.JellyBox);
       }
     });
   }
