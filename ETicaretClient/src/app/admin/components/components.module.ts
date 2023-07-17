@@ -4,17 +4,20 @@ import { ProductsModule } from './products/products.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { AuthorizeMenuModule } from './authorize-menu/authorize-menu.module';
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+  ],
   imports: [
     CommonModule,
     ProductsModule,
     CustomersModule,
     OrdersModule,
-    DashboardModule
+    DashboardModule,
+    AuthorizeMenuModule
   ]
 })
 export class ComponentsModule { }

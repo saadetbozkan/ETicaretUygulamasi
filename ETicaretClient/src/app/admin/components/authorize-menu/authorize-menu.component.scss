@@ -1,0 +1,29 @@
+  .authorize-menu-tree ul,
+  .authorize-menu-tree li {
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style-type: none;
+  }
+
+  .authorize-menu-tree .mat-nested-tree-node div[role=group] {
+    padding-left: 40px;
+  }
+
+  .authorize-menu-tree div[role=group]>.mat-tree-node {
+    padding-left: 40px;
+  }
+
+  .authorize-menu-tree {
+    margin: 50px 100px;
+    background-color: #f8a2b9;
+  }
+
+  .authorize-menu {
+    margin: 30px;
+    background-color: #f8a2b9;
+    border-radius: 10px;
+    border: 1px solid #f8a2b9;
+    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
+      0px 8px 10px 1px rgba(0, 0, 0, 0.14),
+      0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+  }
