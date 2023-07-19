@@ -26,11 +26,16 @@ export class RoleService {
     const observable: Observable<any> = this.httpClientService.post({
       controller: "roles",
     },{name: name});
+    
+    var data : { succeeded: boolean} = await firstValueFrom(observable);
+    var funk;
+    if(data.succeeded)
+      funk = successCallBack;
+    else
+      funk = errorCallBack;
+    firstValueFrom(observable).then(funk)
+    .catch(funk)
 
-
-    firstValueFrom(observable).then(successCallBack)
-    .catch(errorCallBack)
-
-    return await firstValueFrom(observable) as {succeeded: boolean};
+    return data ;
   }
 }

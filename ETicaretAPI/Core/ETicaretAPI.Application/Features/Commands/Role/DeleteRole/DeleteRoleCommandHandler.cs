@@ -14,7 +14,7 @@ namespace ETicaretAPI.Application.Features.Commands.Role.DeleteRole
 
         public async Task<DeleteRoleCommandResponse> Handle(DeleteRoleCommandRequest request, CancellationToken cancellationToken)
         {
-            var result = await this.roleService.DeleteRoleAsync(request.Name);
+            var result = await this.roleService.DeleteRoleAsync(request.Id);
             return new()
             {
                 Succeeded = result

@@ -14,7 +14,7 @@ export class RoleComponent implements OnInit {
   }
   @ViewChild(ListComponent) listComponent: ListComponent;
 
-  createdRole(createdRole:string){
+  createdRole(createdRole: string){
     this.listComponent.getRoles();
   }
 

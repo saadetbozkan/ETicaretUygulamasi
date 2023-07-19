@@ -19,9 +19,10 @@ namespace ETicaretAPI.Persistence.Services
             return result.Succeeded;    
         }
 
-        public async Task<bool> DeleteRoleAsync(string name)
+        public async Task<bool> DeleteRoleAsync(string id)
         {
-            IdentityResult result = await this.roleManager.DeleteAsync(new() { Name = name });
+            AppRole role = await this.roleManager.FindByIdAsync(id);
+            IdentityResult result = await this.roleManager.DeleteAsync(role);
             return result.Succeeded;
         }
 
@@ -45,7 +46,9 @@ namespace ETicaretAPI.Persistence.Services
 
         public async Task<bool> UpdateRoleAsync(string id, string name)
         {
-            IdentityResult result = await this.roleManager.UpdateAsync(new() { Id = id, Name = name });
+            AppRole role = await this.roleManager.FindByIdAsync(id);
+            role.Name = name;
+            IdentityResult result = await this.roleManager.UpdateAsync(role);
             return result.Succeeded;
         }
     }

@@ -6,6 +6,7 @@ import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
 import { AlertifyService, MessageType, Position } from 'src/app/services/admin/alertify.service';
 import { DialogService } from 'src/app/services/common/dialog.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { List_Role } from 'src/app/contracts/role/list_role';
 
 @Component({
   selector: 'app-list',
@@ -21,7 +22,7 @@ export class ListComponent extends BaseComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['name', 'edit', 'delete',];
-  dataSource: MatTableDataSource<any> = null;
+  dataSource: MatTableDataSource<List_Role> = null;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -37,8 +38,15 @@ export class ListComponent extends BaseComponent implements OnInit {
           position: Position.BottomLeft
         }));
         
-        const list_role = Object.entries(allRoles.datas);
-    this.dataSource = new MatTableDataSource<any>(list_role);
+    const list_role: List_Role[] = [];
+    list_role.push
+         Object.entries(allRoles.datas).forEach((v)=>{
+          list_role.push({
+            id: v[0],
+            name: v[1]
+          });
+         });
+    this.dataSource = new MatTableDataSource<List_Role>(list_role);
     this.paginator.length = allRoles.totalRolesCount;
   }
 

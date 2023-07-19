@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
 import { AlertifyService, MessageType, Position } from 'src/app/services/admin/alertify.service';
@@ -9,16 +9,13 @@ import { RoleService } from 'src/app/services/common/models/role.service';
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss']
 })
-export class CreateComponent extends BaseComponent implements OnInit {
+export class CreateComponent extends BaseComponent{
 
   constructor(spinner: NgxSpinnerService, 
     private roleService: RoleService, 
     private alertify: AlertifyService) {
     super(spinner)
    }
-
-  ngOnInit(): void {
-  }
   @Output() createdRole: EventEmitter<string> = new EventEmitter();
 
   create(name: HTMLInputElement){
@@ -33,12 +30,14 @@ export class CreateComponent extends BaseComponent implements OnInit {
       });
       this.createdRole.emit(name.value);
     }, errorMessage => { 
-      this.alertify.message(errorMessage,
+      this.hideSpinner(SpinnerType.JellyBox);
+      this.alertify.message("Bir hata oluştu.",
         {
         messageType : MessageType.Error,
         position:Position.BottomLeft,
         dismissOthers: true
       });
+      this.hideSpinner(SpinnerType.JellyBox);
     });
   }
 }
