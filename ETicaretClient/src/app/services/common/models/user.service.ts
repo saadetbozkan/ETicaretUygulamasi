@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { HttpClientService } from '../http-client.service';
 import { Create_User } from 'src/app/contracts/users/create_user';
 import { Observable, firstValueFrom } from 'rxjs';
+import { List_User } from 'src/app/contracts/users/list_user';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +31,44 @@ export class UserService {
     const promiseData: Promise<any> = firstValueFrom(observable);
     promiseData.then(value => successCallBackFunction()).catch(error => errorCallBackFunction(error));
     return await promiseData;
+  }
+
+  async getAll(page: number = 0, size: number = 5, successCallBack?: () => void, errorCallBack?: (errorMessage: string) => void): Promise<{ totalUsersCount: number; users: List_User[] }> {
+    const observable: Observable<{ totalUsersCount: number; users: List_User[] }> = this.httpClientService.get({
+      controller: "users",
+      queryString: `page=${page}&size=${size}`
+    });
+
+    firstValueFrom(observable).then(d => successCallBack())
+      .catch((errorResponse: HttpErrorResponse) => errorCallBack(errorResponse.message));
+
+    return await firstValueFrom(observable);
+  }
+
+  async assignRoleUser(userId: string, roles: string[], successCallBack?: () => void, errorCallBack?: (error)=> void){
+    const observable: Observable<any> = this.httpClientService.post({
+      controller : "Users",
+      action: "assign-role-to-user"
+    },{
+        userId: userId,
+        roles: roles
+      });
+
+      const promiseData = firstValueFrom(observable);
+      promiseData.then(successCallBack).catch(errorCallBack);
+      await promiseData;
+  }
+
+  async getRolesToUser(userId: string, successCallBack?: () => void, errorCallBack?: (error)=> void): Promise<string[]>{
+    const observable: Observable<any> = this.httpClientService.get({
+      controller: "Users",
+      action: "get-roles-to-user"
+    },userId);
+
+    var promiseData = firstValueFrom(observable);
+    promiseData.then(successCallBack).catch(errorCallBack);
+
+    return (await promiseData).roles;
   }
 
 }

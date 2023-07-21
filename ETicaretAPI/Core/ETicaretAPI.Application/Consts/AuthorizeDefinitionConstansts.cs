@@ -7,7 +7,7 @@
         public const string Product = "Product";
         public const string AplicationService = "ApplicationService";
         public const string Role = "Role";
-
-
+        public const string User = "User";
+        public const string AuthorizationEndpoint = "AuthorizationEndpoint";
     }
 }

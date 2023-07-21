@@ -29,6 +29,7 @@ export class AuthorizeMenuDialogComponent extends BaseDialog<AuthorizeMenuDialog
   listRoles: {name: string, selected:boolean }[];
 
    async ngOnInit() {
+    this.spinner.show(SpinnerType.JellyBox);
     this.allRoles = await this.roleService.getRoles(-1, -1) as {totalRolesCount : number, datas: Map<string,string> };
     Object.entries(this.allRoles.datas).forEach((v)=>{
       
@@ -37,7 +38,7 @@ export class AuthorizeMenuDialogComponent extends BaseDialog<AuthorizeMenuDialog
        name: v[1]
      });
     });
-    
+
     this.assignedRoles = await this.authorizeEndpointService.getRolesToEndpoint(this.data.code, this.data.menuName);
     
     this.listRoles = this.role_list.map((r: any) => {
@@ -46,6 +47,7 @@ export class AuthorizeMenuDialogComponent extends BaseDialog<AuthorizeMenuDialog
         selected: this.assignedRoles.indexOf(r.name)> -1
       }
     });
+    this.spinner.hide(SpinnerType.JellyBox);
   }
   assignRoles(roleComponent: MatSelectionList){
     const roles: string[] = roleComponent.selectedOptions.selected.map(o => o._text.nativeElement.innerText);
