@@ -28,14 +28,17 @@ namespace ETicaretAPI.Persistence.Services
 
         public (int, Dictionary<string, string>) GetAllRole(int page, int size)
         {
+            // size veya page -1 olması halinde bütün roles verileri döner.
 
-            var Alldatas = this.roleManager.Roles.ToList();
+            var query = this.roleManager.Roles;
 
-            int totalRolesCount = Alldatas.Count;
+            IQueryable<AppRole> rolesQuery = null;
+            if (page != -1 && size != -1)
+                rolesQuery = query.Skip(page * size).Take(size);
+            else
+                rolesQuery = query;
             
-            var datas = Alldatas.Skip(page * size).Take(size).ToDictionary(role => role.Id, role => role.Name);
-
-            return (totalRolesCount, datas);
+            return (query.Count(), rolesQuery.ToDictionary(role => role.Id, role => role.Name));
         }
 
         public async Task<(string id, string name)> GetRoleByIdAsync(string id)

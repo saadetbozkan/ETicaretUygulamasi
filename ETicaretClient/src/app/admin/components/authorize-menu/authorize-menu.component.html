@@ -3,7 +3,7 @@
   <mat-tree style="background-color: f8a2b9;" [dataSource]="dataSource" [treeControl]="treeControl"
   class="authorize-menu-tree">
   <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-    <button mat-button style="color: blue;  border-radius: 50%;" (click)="assignRole(node.code, node.name)">Rol Ata</button> {{node.name}} 
+    <button mat-button style="color: blue;  border-radius: 50%;" (click)="assignRole(node.code, node.name, node.menuName)">Rol Ata</button> {{node.name}} 
   </mat-tree-node>
   <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
     <button  mat-icon-button matTreeNodeToggle

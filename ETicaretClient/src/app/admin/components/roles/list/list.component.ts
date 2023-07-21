@@ -39,8 +39,7 @@ export class ListComponent extends BaseComponent implements OnInit {
         }));
         
     const list_role: List_Role[] = [];
-    list_role.push
-         Object.entries(allRoles.datas).forEach((v)=>{
+    Object.entries(allRoles.datas).forEach((v)=>{
           list_role.push({
             id: v[0],
             name: v[1]

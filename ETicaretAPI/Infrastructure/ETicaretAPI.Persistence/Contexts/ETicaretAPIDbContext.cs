@@ -20,8 +20,8 @@ namespace ETicaretAPI.Persistence.Contexts
         public DbSet<Basket> Baskets { get; set; }
         public DbSet<BasketItem> BasketItems { get; set; }
         public DbSet<ComplatedOrder> CopmlatedOrders { get; set; }
-
-
+        public DbSet<Menu> Menu { get; set; }
+        public DbSet<Endpoint> Endpoints { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
