@@ -44,7 +44,7 @@ export class AuthorizeMenuDialogComponent extends BaseDialog<AuthorizeMenuDialog
     this.listRoles = this.role_list.map((r: any) => {
       return{
         name: r.name,
-        selected: this.assignedRoles.indexOf(r.name)> -1
+        selected: this.assignedRoles?.indexOf(r.name)> -1
       }
     });
     this.spinner.hide(SpinnerType.JellyBox);

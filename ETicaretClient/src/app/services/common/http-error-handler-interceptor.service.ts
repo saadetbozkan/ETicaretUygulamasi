@@ -29,12 +29,16 @@ export class HttpErrorHandlerInterceptorService implements HttpInterceptor {
                 });
               }
               else
-              this.toastrService.message("Bu işlemi yapmaya yetkiniz bulunmamaktadır.", "Yetkisiz işlem!", {
-                messageType: ToasterMessageType.Warning,
-                position: ToasterPosition.BottomFullWidth
-              });        
+                this.toastrService.message("Bu işlemi yapmaya yetkiniz bulunmamaktadır.", "Yetkisiz işlem!", {
+                  messageType: ToasterMessageType.Warning,
+                  position: ToasterPosition.BottomFullWidth
+                });        
             }
           }).then(data =>{
+            this.toastrService.message("Bu işlemi yapmaya yetkiniz bulunmamaktadır.", "Yetkisiz işlem!", {
+              messageType: ToasterMessageType.Warning,
+              position: ToasterPosition.BottomFullWidth
+            });        
          });
           break;
         case HttpStatusCode.InternalServerError:

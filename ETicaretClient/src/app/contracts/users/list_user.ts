@@ -4,4 +4,5 @@ export class List_User{
     nameSurname: string;
     twoFactorEnabled: boolean;
     email: string;
+    isAdmin: string;
 }

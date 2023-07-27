@@ -2,6 +2,8 @@
 using ETicaretAPI.Application.DTOs.User;
 using ETicaretAPI.Application.Exceptions;
 using ETicaretAPI.Application.Helpers;
+using ETicaretAPI.Application.Repositories;
+using ETicaretAPI.Domain.Entities;
 using ETicaretAPI.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -10,11 +12,13 @@ namespace ETicaretAPI.Persistence.Services
 {
     public class UserService : IUserService
     {
-        readonly UserManager<Domain.Entities.Identity.AppUser> userManager;
+        readonly UserManager<AppUser> userManager;
+        readonly IEndpointReadRepository endpointReadRepository;
 
-        public UserService(UserManager<AppUser> userManager)
+        public UserService(UserManager<AppUser> userManager, IEndpointReadRepository endpointReadRepository)
         {
             this.userManager = userManager;
+            this.endpointReadRepository = endpointReadRepository;
         }
 
         public async Task<CreateUserResponse> CreateAsync(CreateUser model)
@@ -45,8 +49,9 @@ namespace ETicaretAPI.Persistence.Services
                 user.RefreshTokenEndDate = accessTokenDate.AddSeconds(addOnAccessTokenDate);
                 await this.userManager.UpdateAsync(user);
             }
-            else
-                throw new NotFoundUserException();
+           // else
+                //throw new NotFoundUserException();
+
         }
 
         public async Task UpdatePasswordAsync(string userId, string resetToken, string newPassword)
@@ -73,7 +78,8 @@ namespace ETicaretAPI.Persistence.Services
                 Email = user.Email,
                 NameSurname = user.NameSurname,
                 TwoFactorEnabled = user.TwoFactorEnabled,
-                UserName = user.UserName
+                UserName = user.UserName,
+                IsAdmin = user.IsAdmin 
             }).ToList();
         }
 
@@ -91,15 +97,62 @@ namespace ETicaretAPI.Persistence.Services
             }
         }
 
-        public async Task<string[]> GetRolesToUserAsync(string userId)
+        public async Task<string[]> GetRolesToUserAsync(string userIdOrName)
         {
-            AppUser user = await this.userManager.FindByIdAsync(userId);
+            AppUser user = await this.userManager.FindByIdAsync(userIdOrName);
+            
+            if (user is null)
+                user = await this.userManager.FindByNameAsync(userIdOrName);
+
             if(user is not null)
             {
                 var userRoles = await this.userManager.GetRolesAsync(user);
                 return userRoles.ToArray();
             }
             throw new NotFoundUserException("Kullanıcı bulunmamaktadır.");
+        }
+
+        public async Task<bool> HasRolePermissionToEndPointAsync(string name, string code)
+        {
+            var userRoles = await GetRolesToUserAsync(name);
+            
+            if(!userRoles.Any())
+                return false;
+
+           Endpoint? endpoint = await this.endpointReadRepository.Table
+                .Include(e => e.AppRoles)
+                .FirstOrDefaultAsync(e => e.Code == code);
+            
+            if (endpoint is null)
+                return false;
+
+            var hasRole = false;
+            var endpointRoles = endpoint.AppRoles.Select(r => r.Name);
+
+            foreach (var userRole in userRoles)
+                foreach (var endpointRole in endpointRoles)
+                    if (userRole == endpointRole)
+                        return true;
+
+            return hasRole;
+        }
+
+        public async Task<ListUser> GetUserByNameAsync(string name)
+        {
+            var user = await userManager.FindByNameAsync(name);
+            if (user is not null)
+
+                return new()
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    NameSurname = user.NameSurname,
+                    TwoFactorEnabled = user.TwoFactorEnabled,
+                    UserName = user.UserName,
+                    IsAdmin = user.IsAdmin,
+                };
+            return new();
+            
         }
     }
 }

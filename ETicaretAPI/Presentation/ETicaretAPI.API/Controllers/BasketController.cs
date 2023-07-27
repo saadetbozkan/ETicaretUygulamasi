@@ -32,7 +32,7 @@ namespace ETicaretAPI.API.Controllers
         }
 
         [HttpPost]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstansts.Basket, ActionType = ActionType.Writing, Definition = "Add Itemm to Basket")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstansts.Basket, ActionType = ActionType.Writing, Definition = "Add Item to Basket")]
         public async Task<IActionResult> AddItemToBasket(AddItemToBasketCommandRequest addItemToBasketCommandRequest )
         {
             AddItemToBasketCommandResponse response = await this.mediator.Send(addItemToBasketCommandRequest);
@@ -50,7 +50,7 @@ namespace ETicaretAPI.API.Controllers
 
         [HttpDelete("{BasketItemId}")]
         [AuthorizeDefinition(Menu = AuthorizeDefinitionConstansts.Basket, ActionType = ActionType.Deleting
-            , Definition = "Remove basket Item")]
+            , Definition = "Remove Basket Item")]
         public async Task<IActionResult> RemoveBasketItem([FromRoute]RemoveBasketCommandRequest removeBasketCommandRequest)
         {
             RemoveBasketCommandResponse response = await this.mediator.Send(removeBasketCommandRequest);

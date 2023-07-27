@@ -7,5 +7,6 @@
         public string Email { get; set; }
         public string NameSurname { get; set; }
         public bool TwoFactorEnabled { get; set; }
+        public bool IsAdmin { get; set; } = false;
     }
 }
