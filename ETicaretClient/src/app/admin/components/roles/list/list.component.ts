@@ -32,10 +32,10 @@ export class ListComponent extends BaseComponent implements OnInit {
       .getRoles(this.paginator ? this.paginator.pageIndex : 0,
         this.paginator ? this.paginator.pageSize : 5,
         () => this.hideSpinner(SpinnerType.JellyBox),
-        errorMessage => this.alertifyService.message(errorMessage, {
+        errorMessage => this.alertifyService.message(errorMessage.message, {
           dismissOthers: true,
           messageType: MessageType.Error,
-          position: Position.BottomLeft
+          position: Position.TopRight
         }));
         
     const list_role: List_Role[] = [];

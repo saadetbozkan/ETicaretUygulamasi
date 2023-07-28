@@ -35,7 +35,7 @@ export class ListComponent extends BaseComponent implements OnInit {
       errorMessage => this.alertifyService.message(errorMessage,{
         dismissOthers: true,
         messageType: MessageType.Error,
-        position: Position.BottomLeft
+        position: Position.TopRight
     }));
 
     this.dataSource = new MatTableDataSource<List_User>(allUsers.users);

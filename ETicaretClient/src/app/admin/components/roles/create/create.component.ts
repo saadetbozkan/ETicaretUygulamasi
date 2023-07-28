@@ -34,7 +34,7 @@ export class CreateComponent extends BaseComponent{
       this.alertify.message("Bir hata oluştu.",
         {
         messageType : MessageType.Error,
-        position:Position.BottomLeft,
+        position:Position.TopRight,
         dismissOthers: true
       });
       this.hideSpinner(SpinnerType.JellyBox);

@@ -15,11 +15,11 @@ export class RoleService {
       controller: "roles",
       queryString: `page=${page}&size=${size}`
     });
-
-    firstValueFrom(observable).then(successCallBack)
+    var promiseData = firstValueFrom(observable);
+    promiseData.then(successCallBack)
     .catch(errorCallBack)
  
-    return await firstValueFrom(observable);
+    return await promiseData;
   }
 
   async create(name: string, successCallBack?: () => void, errorCallBack?: (error) => void){

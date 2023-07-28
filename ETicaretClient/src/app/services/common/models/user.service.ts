@@ -39,10 +39,11 @@ export class UserService {
       queryString: `page=${page}&size=${size}`
     });
 
-    firstValueFrom(observable).then(d => successCallBack())
+    var promiseData = firstValueFrom(observable);
+    promiseData.then(d => successCallBack())
       .catch((errorResponse: HttpErrorResponse) => errorCallBack(errorResponse.message));
 
-    return await firstValueFrom(observable);
+    return await promiseData;
   }
 
   async assignRoleUser(userId: string, roles: string[], successCallBack?: () => void, errorCallBack?: (error)=> void){
