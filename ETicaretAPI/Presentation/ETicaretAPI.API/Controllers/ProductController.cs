@@ -116,7 +116,7 @@ namespace ETicaretAPI.API.Controllers
 
         }
 
-        [HttpGet("qrCoder/{productId}")]
+        [HttpGet("qrCode/{productId}")]
         public async Task<IActionResult> GetQRCodeToProduct([FromRoute] string productId)
         {
            byte[] data = await this.productService.QRCodeToProductAsync(productId);
