@@ -1,4 +1,5 @@
-﻿using ETicaretAPI.Application.Consts;
+﻿using ETicaretAPI.Application.Abstractions.Services;
+using ETicaretAPI.Application.Consts;
 using ETicaretAPI.Application.CustomAttributes;
 using ETicaretAPI.Application.Enums;
 using ETicaretAPI.Application.Features.Commands.Product.CreateProduct;
@@ -22,40 +23,42 @@ namespace ETicaretAPI.API.Controllers
     public class ProductController : ControllerBase
     {
         readonly IMediator mediator;
+        readonly IProductSevice productService;
 
-        public ProductController(IMediator mediator)
+        public ProductController(IMediator mediator, IProductSevice productService)
         {
-         
+
             this.mediator = mediator;
+            this.productService = productService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery]GetAllProductQueryRequest getAllProductQueryRequest)
+        public async Task<IActionResult> GetAll([FromQuery] GetAllProductQueryRequest getAllProductQueryRequest)
         {
-            GetAllProductQueryResponse response =  await this.mediator.Send(getAllProductQueryRequest);
+            GetAllProductQueryResponse response = await this.mediator.Send(getAllProductQueryRequest);
             return Ok(response);
         }
 
         [HttpGet("{Id}")]
-        public async Task<IActionResult> Get([FromRoute]GetByIdProductQueryRequest getByIdProductQueryRequest)
+        public async Task<IActionResult> Get([FromRoute] GetByIdProductQueryRequest getByIdProductQueryRequest)
         {
-            GetByIdProductQueryResponse response =  await this.mediator.Send(getByIdProductQueryRequest);
+            GetByIdProductQueryResponse response = await this.mediator.Send(getByIdProductQueryRequest);
             return Ok(response);
         }
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Admin")]
         [AuthorizeDefinition(Menu = AuthorizeDefinitionConstansts.Product, ActionType = ActionType.Writing, Definition = "Create Product")]
-        public async Task<IActionResult> Post([FromBody]CreateProductCommandRequest createProductCommandRequest)
+        public async Task<IActionResult> Post([FromBody] CreateProductCommandRequest createProductCommandRequest)
         {
             CreateProductCommandResponse response = await this.mediator.Send(createProductCommandRequest);
-            return StatusCode((int)HttpStatusCode.Created); 
+            return StatusCode((int)HttpStatusCode.Created);
         }
 
         [HttpPut]
         [Authorize(AuthenticationSchemes = "Admin")]
         [AuthorizeDefinition(Menu = AuthorizeDefinitionConstansts.Product, ActionType = ActionType.Updating, Definition = "Update Product")]
-        public async Task<IActionResult> Put([FromBody]UpdateProductCommandRequest updateProductCommandRequest)
+        public async Task<IActionResult> Put([FromBody] UpdateProductCommandRequest updateProductCommandRequest)
         {
             UpdateProductCommandResponse response = await this.mediator.Send(updateProductCommandRequest);
             return Ok();
@@ -64,7 +67,7 @@ namespace ETicaretAPI.API.Controllers
         [HttpDelete("{Id}")]
         [Authorize(AuthenticationSchemes = "Admin")]
         [AuthorizeDefinition(Menu = AuthorizeDefinitionConstansts.Product, ActionType = ActionType.Deleting, Definition = "Delete Product")]
-        public async Task<IActionResult> Delete([FromRoute]RemoveProductCommandRequest removeProductCommandRequest)
+        public async Task<IActionResult> Delete([FromRoute] RemoveProductCommandRequest removeProductCommandRequest)
         {
 
             RemoveProductCommandResponse response = await this.mediator.Send(removeProductCommandRequest);
@@ -74,19 +77,19 @@ namespace ETicaretAPI.API.Controllers
         [HttpPost("[action]")]
         [Authorize(AuthenticationSchemes = "Admin")]
         [AuthorizeDefinition(Menu = AuthorizeDefinitionConstansts.Product, ActionType = ActionType.Writing, Definition = "Upload Product File")]
-        public async Task<IActionResult> Upload([FromQuery]UploadProductImageCommandRequest uploadProductImageCommandRequest)
+        public async Task<IActionResult> Upload([FromQuery] UploadProductImageCommandRequest uploadProductImageCommandRequest)
         {
             uploadProductImageCommandRequest.Files = Request.Form.Files;
             UploadProductImageCommandResponse response = await mediator.Send(uploadProductImageCommandRequest);
 
             return Ok();
-            
+
         }
 
         [HttpGet("[action]/{Id}")]
         [Authorize(AuthenticationSchemes = "Admin")]
         [AuthorizeDefinition(Menu = AuthorizeDefinitionConstansts.Product, ActionType = ActionType.Reading, Definition = "Get Products Images")]
-        public async Task<IActionResult> GetProductImages([FromRoute]GetProductImageQueryRequest getProductImageQueryRequest)
+        public async Task<IActionResult> GetProductImages([FromRoute] GetProductImageQueryRequest getProductImageQueryRequest)
         {
             List<GetProductImageQueryResponse> response = await this.mediator.Send(getProductImageQueryRequest);
             return Ok(response);
@@ -95,7 +98,7 @@ namespace ETicaretAPI.API.Controllers
         [HttpDelete("[action]/{Id}")]
         [Authorize(AuthenticationSchemes = "Admin")]
         [AuthorizeDefinition(Menu = AuthorizeDefinitionConstansts.Product, ActionType = ActionType.Deleting, Definition = "Delete Product Image")]
-        public async Task<IActionResult> DeleteProductImage([FromRoute]RemoveProductImageCommandRequest removeProductImageCommandRequest, [FromQuery]string imageId)
+        public async Task<IActionResult> DeleteProductImage([FromRoute] RemoveProductImageCommandRequest removeProductImageCommandRequest, [FromQuery] string imageId)
         {
             removeProductImageCommandRequest.ImageId = imageId;
             RemoveProductImageCommandResponse response = await this.mediator.Send(removeProductImageCommandRequest);
@@ -111,6 +114,13 @@ namespace ETicaretAPI.API.Controllers
             ChangeShowcaseImageCommandResponse response = await this.mediator.Send(changeShowcaseImageCommandRequest);
             return Ok();
 
+        }
+
+        [HttpGet("qrCoder/{productId}")]
+        public async Task<IActionResult> GetQRCodeToProduct([FromRoute] string productId)
+        {
+           byte[] data = await this.productService.QRCodeToProductAsync(productId);
+            return File(data, "image/png");
         }
     }
 }
