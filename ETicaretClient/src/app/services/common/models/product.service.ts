@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { Create_Product } from 'src/app/contracts/create_product';
 import { HttpErrorResponse } from '@angular/common/http';
 import { List_Product } from 'src/app/contracts/list_product';
+import { Update_Product } from 'src/app/contracts/update_product';
 
 @Injectable({
   providedIn: 'root'
@@ -52,6 +53,15 @@ export class ProductService {
       controller: "products"
     }, id);
     await firstValueFrom(deleteObservable);
+  }
+
+  async update(product: Update_Product, successCallBack?: () => void, errorCallBack?: (errorMessage: string) => void){
+    const observable: Observable<any> = this.httpClientService.put({
+      controller: "products"
+    }, product );
+ 
+    await firstValueFrom(observable);
+    successCallBack();
   }
 
   async readImages(id: string, successCallBack?: () => void): Promise<List_Product_Image[]> {
