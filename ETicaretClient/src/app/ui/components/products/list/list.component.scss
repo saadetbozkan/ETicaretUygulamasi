@@ -1,6 +1,41 @@
-.products-list-btn{
-    color: black; 
-    background-color: #BAD6FD;
-    border-radius: 25px;
+.product-floating-btn, .product-floating-btn:active  {
+    position: absolute;
+    right: 2rem;
+    bottom: 2rem;
+    transition: opacity .2s ease-in-out;
+    opacity: 1;
+    z-index: 10;
+    background-color: #fe4042;
 }
-.products-list-btn:hover{background-color: #4490fa;}
+
+.product-floating-btn:hover{
+    opacity: 0.8;
+}
+
+.product-card {
+    padding-bottom: 1.25rem;
+    border: 0;
+    transition: all .15s ease-in-out;
+}
+
+.product-image:hover{
+    opacity: 0.7;
+}
+
+.page-link{
+    border: 0; 
+    color: black;
+    background-color: white;
+    --bs-pagination-hover-border-color: white  ;
+    --bs-pagination-focus-box-shadow: black;
+    
+}
+
+.pagination-item-active{
+    --bs-pagination-active-color: #fe4042;
+    color: white;
+    background-color: #fe4042;
+    border-radius: 20%;
+
+   
+}

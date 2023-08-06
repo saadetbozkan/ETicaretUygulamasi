@@ -64,9 +64,14 @@ super(spinner)
 
     this.pageList = [];
 
-    if (this.currentPageNo -3 <= 0)
-      for(let i = 1; i <= 7; i++)
+    if (this.currentPageNo - 3 <= 0){
+      var paginationLengt = 7;
+      if(this.totalPageCount<7)
+        paginationLengt = this.totalPageCount
+      for(let i = 1; i <= paginationLengt; i++)
         this.pageList.push(i);
+    }
+      
     else if (this.currentPageNo + 3 >= this.totalPageCount)
       for(let i = this.totalPageCount - 6; i <= this.totalPageCount; i++)
         this.pageList.push(i);

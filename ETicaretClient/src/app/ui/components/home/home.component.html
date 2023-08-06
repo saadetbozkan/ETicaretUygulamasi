@@ -1,1 +1,81 @@
-<p>home works!</p>
+<section class="bg-accent bg-position-center bg-size-cover py-3 py-sm-5 shadow-lg"
+    style="background-image: url(../../../../assets/home_welcome.png);">
+    <div class="container py-5">
+        <div class="row pt-md-5 pb-lg-5 justify-content-center">
+            <div class="col-xl-7 col-lg-8 col-md-10 text-center py-xl-3">
+                <h1 class="text-dark pb-sm-2"><img src="../../../../assets/logo.png" alt="logo"><br>E-Minik</h1><span
+                    class="d-inline-block h4 text-dark fw-dark">Alışverişim mini adresine Hoş geldiniz.</span><span
+                    class="d-inline-block h3 text-dark fw-dark ">Özenle seçilmiş ürünlerimiz sizi bekliyor.</span>
+                <div class="py-4 py-sm-5"><a class="btn btn-lg app-btn shadow-lg" href="#shopping" data-scroll=""
+                        routerLink="/products">Hemen
+                        alişverişe başla. <img src="../../../../assets/basket.png" alt="basket" height="20px"
+                            width="20px"></a></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container pt-5 pb-3 pb-lg-5">
+    <div class="text-center pt-md-4 pb-2">
+        <h2><span class="fw-light">Hızlı alışveriş</span> E-Minik</h2>
+        <p class="text-muted">Ürünlerin fazlalığı kafanızı karıştırıyorsa sizin için araştırdığımız uygun ve kaliteli
+            ürünlere bakmaya ne dersiniz?</p>
+    </div>
+
+    <div class="row px-5 py-5 mx-2 align-items-center">
+        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 px-2 mb-3 mx-5">
+            <div class="card product-card card-static pb-3 shadow-lg">
+
+                <div class="mx-5 my-5 py-4 px-4 product-image">
+                    <img src="../../../../../assets/logo.png" class="card-img-top card-image" alt="product">
+                </div>
+                <div class="card-body py-3">
+                    <h5 class="card-title">ürün 1</h5>
+                    <div class="product-price">
+                        <p class="card-text">₺ 50 |<br> Stock : 80</p>
+                    </div>
+                </div>
+
+                <button class="btn shadow-lg app-btn" type="button" style="color: white;">
+                    Sepete Ekle <img src="../../../../../assets/basket.png" alt="delete-btn" width="25px"
+                        height="25px"></button>
+            </div>
+        </div>
+        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 px-2 mb-3 mx-5">
+
+            <div class="card product-card card-static pb-3 shadow-lg">
+
+                <div class="mx-5 my-5 py-4 px-4 product-image">
+                    <img src="../../../../../assets/logo.png" class="card-img-top card-imag" alt="product">
+                </div>
+                <div class="card-body py-3">
+                    <h5 class="card-title">ürün 1</h5>
+                    <div class="product-price">
+                        <p class="card-text">₺ 50 |<br> Stock : 80</p>
+                    </div>
+                </div>
+
+                <button class="btn shadow-lg app-btn" type="button" style="color: white;">
+                    Sepete Ekle <img src="../../../../../assets/basket.png" alt="delete-btn" width="25px"
+                        height="25px"></button>
+            </div>
+
+        </div>
+    </div>
+    <h6 class="text-center"> <span style="cursor: pointer;" routerLink="/products">Ve daha fazlası ...</span></h6>
+</section>
+<section class=" border-top">
+    <div class="my-5">
+        <div class="container text-center">
+            <h3 class="fw-light" *ngIf="!authService.isAuthenticated">Hala kaydolmadın mı?</h3>
+            <h2 class="pb-4" *ngIf="!authService.isAuthenticated">Avantajlı bir alışveriş sizi bekliyor.</h2>
+            <a class="btn app-btn btn-lg shadow-lg" type="submit" *ngIf="!authService.isAuthenticated"
+                routerLink="/register">Kaydol</a>
+
+            <h3 class="fw-light" *ngIf="authService.isAuthenticated">Alışveriş mi yapacaksın?</h3>
+            <a class="btn app-btn btn-lg shadow-lg" *ngIf="authService.isAuthenticated" type="submit"
+                routerLink="/products">Alışveriş Yap</a>
+
+        </div>
+    </div>
+</section>
