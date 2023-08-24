@@ -14,54 +14,112 @@
         </div>
     </div>
 </section>
-
 <section class="container pt-5 pb-3 pb-lg-5">
     <div class="text-center pt-md-4 pb-2">
         <h2><span class="fw-light">Hızlı alışveriş</span> E-Minik</h2>
-        <p class="text-muted">Ürünlerin fazlalığı kafanızı karıştırıyorsa sizin için araştırdığımız uygun ve kaliteli
+        <p class="text-muted">Ürünlerin fazlalığı kafanızı karıştırıyorsa sizin için araştırdığımız uygun ve
+            kaliteli
             ürünlere bakmaya ne dersiniz?</p>
     </div>
 
-    <div class="row px-5 py-5 mx-2 align-items-center">
-        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 px-2 mb-3 mx-5">
-            <div class="card product-card card-static pb-3 shadow-lg">
+    <div id="carouselExampleIndicators" class="carousel slide">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1" (click)="carouselControl(1)"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                aria-label="Slide 2"  (click)="carouselControl(2)"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                aria-label="Slide 3"  (click)="carouselControl(3)"></button>
+        </div>
+        <div class="carousel-inner px-lg-5 py-5" >
+                <div class="carousel-item active">
+                    <div class="row mx-lg-5 px-5">
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 px-2" *ngFor="let product of products">
+                            <div class="card product-card card-static shadow-lg">
 
-                <div class="mx-5 my-5 py-4 px-4 product-image">
-                    <img src="../../../../../assets/logo.png" class="card-img-top card-image" alt="product">
-                </div>
-                <div class="card-body py-3">
-                    <h5 class="card-title">ürün 1</h5>
-                    <div class="product-price">
-                        <p class="card-text">₺ 50 |<br> Stock : 80</p>
+                                <div class="mx-5 my-5 py-4 px-4">
+                                    <img *ngIf="!product.productImageFiles.length" src="../../../../../assets/product-default.png"
+                                      class="card-img-top" alt="product">
+                                    <img *ngIf="product.productImageFiles.length" src="{{baseUrl.url}}/{{product.imagePath}}"
+                                      class="card-img-top" alt="product">
+                                </div>
+
+                                <div class="card-body py-3">
+                                    <h5 class="card-title">{{product.name}}</h5>
+                                    <div class="product-price">
+                                        <p class="card-text">{{product.price | currency:"₺"}} |<br> Stock : {{product.stock}}</p>
+                                    </div>
+                                </div>
+
+                                <button class="btn shadow-lg app-btn" type="button" routerLink="/products">
+                                    Alışveriş Yap <img src="../../../../../assets/basket.png" alt="basket-btn" height="25px"></button>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <div class="carousel-item">
+                    <div class="row mx-lg-5 px-5">
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 px-2" *ngFor="let product of products">
+                            <div class="card product-card card-static shadow-lg">
 
-                <button class="btn shadow-lg app-btn" type="button" style="color: white;">
-                    Sepete Ekle <img src="../../../../../assets/basket.png" alt="delete-btn" width="25px"
-                        height="25px"></button>
-            </div>
-        </div>
-        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 px-2 mb-3 mx-5">
+                                <div class="mx-5 my-5 py-4 px-4">
+                                    <img *ngIf="!product.productImageFiles.length" src="../../../../../assets/product-default.png"
+                                      class="card-img-top" alt="product">
+                                    <img *ngIf="product.productImageFiles.length" src="{{baseUrl.url}}/{{product.imagePath}}"
+                                      class="card-img-top" alt="product">
+                                </div>
 
-            <div class="card product-card card-static pb-3 shadow-lg">
+                                <div class="card-body py-3">
+                                    <h5 class="card-title">{{product.name}}</h5>
+                                    <div class="product-price">
+                                        <p class="card-text">{{product.price | currency:"₺"}} |<br> Stock : {{product.stock}}</p>
+                                    </div>
+                                </div>
 
-                <div class="mx-5 my-5 py-4 px-4 product-image">
-                    <img src="../../../../../assets/logo.png" class="card-img-top card-imag" alt="product">
-                </div>
-                <div class="card-body py-3">
-                    <h5 class="card-title">ürün 1</h5>
-                    <div class="product-price">
-                        <p class="card-text">₺ 50 |<br> Stock : 80</p>
+                                <button class="btn shadow-lg app-btn" type="button" routerLink="/products">
+                                    Alışveriş Yap <img src="../../../../../assets/basket.png" alt="basket-btn" height="25px"></button>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <div class="carousel-item">
+                    <div class="row mx-lg-5 px-5">
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 px-2" *ngFor="let product of products">
+                            <div class="card product-card card-static shadow-lg">
 
-                <button class="btn shadow-lg app-btn" type="button" style="color: white;">
-                    Sepete Ekle <img src="../../../../../assets/basket.png" alt="delete-btn" width="25px"
-                        height="25px"></button>
+                                <div class="mx-5 my-5 py-4 px-4">
+                                    <img *ngIf="!product.productImageFiles.length" src="../../../../../assets/product-default.png"
+                                      class="card-img-top" alt="product">
+                                    <img *ngIf="product.productImageFiles.length" src="{{baseUrl.url}}/{{product.imagePath}}"
+                                      class="card-img-top" alt="product">
+                                </div>
+
+                                <div class="card-body py-3">
+                                    <h5 class="card-title">{{product.name}}</h5>
+                                    <div class="product-price">
+                                        <p class="card-text">{{product.price | currency:"₺"}} |<br> Stock : {{product.stock}}</p>
+                                    </div>
+                                </div>
+
+                                <button class="btn shadow-lg app-btn" type="button" routerLink="/products">
+                                    Alışveriş Yap <img src="../../../../../assets/basket.png" alt="basket-btn" height="25px"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="prev" (click)="carouselControl(currentCarousel==1 ? 3 : currentCarousel-1)">
+            <span class="carousel-control-prev-icon shadow-lg control-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="next" (click)="carouselControl(currentCarousel==3 ? 1 : currentCarousel+1)">
+            <span class="carousel-control-next-icon shadow-lg control-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
+
     <h6 class="text-center"> <span style="cursor: pointer;" routerLink="/products">Ve daha fazlası ...</span></h6>
 </section>
 <section class=" border-top">

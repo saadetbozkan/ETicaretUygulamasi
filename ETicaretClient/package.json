@@ -25,6 +25,7 @@
     "@microsoft/signalr": "^7.0.7",
     "alertifyjs": "^1.13.1",
     "bootstrap": "^5.2.2",
+    "chart.js": "^4.3.3",
     "jquery": "^3.6.1",
     "ngx-file-drop": "^14.0.2",
     "ngx-scanner-qrcode": "^1.1.4",

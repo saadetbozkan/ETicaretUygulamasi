@@ -5,6 +5,7 @@ using ETicaretAPI.Application.Features.Commands.AppUser.CreateUser;
 using ETicaretAPI.Application.Features.Commands.AppUser.UpdatePassword;
 using ETicaretAPI.Application.Features.Commands.AuthorizationEndpoint.AssignRoleEndpoint;
 using ETicaretAPI.Application.Features.Queries.AppUser.GetAllUser;
+using ETicaretAPI.Application.Features.Queries.AppUser.GetOrdersToCurrentUser;
 using ETicaretAPI.Application.Features.Queries.AppUser.GetRolesToUser;
 using ETicaretAPI.Application.Features.Queries.Order.GetAllOrders;
 using MediatR;
@@ -58,10 +59,20 @@ namespace ETicaretAPI.API.Controllers
 
         [HttpGet("get-roles-to-user/{UserId}")]
         [Authorize(AuthenticationSchemes = "Admin")]
-        [AuthorizeDefinition(ActionType = Application.Enums.ActionType.Reading, Definition = "Get Roles ToUser", Menu = AuthorizeDefinitionConstansts.User)]
+        [AuthorizeDefinition(ActionType = Application.Enums.ActionType.Reading, Definition = "Get Roles To User", Menu = AuthorizeDefinitionConstansts.User)]
         public async Task<IActionResult> GetRolesToUser([FromRoute]GetRolesToUserQueryRequest getRolesToUserQueryRequest)
         {
             GetRolesToUserQueryResponse response = await this.mediator.Send(getRolesToUserQueryRequest);
+            return Ok(response);
+
+        }
+
+        [HttpGet("get-orders-to-current-user")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(ActionType = Application.Enums.ActionType.Reading, Definition = "Get Orders To Current User", Menu = AuthorizeDefinitionConstansts.User)]
+        public async Task<IActionResult> GetOrdersToCurrentUser([FromQuery]GetOrdersToCurrentUserQueryRequest getOrdersToCurrentUserQueryRequest)
+        {
+            GetOrdersToCurrentUserQueryResponse response = await this.mediator.Send(getOrdersToCurrentUserQueryRequest);
             return Ok(response);
 
         }

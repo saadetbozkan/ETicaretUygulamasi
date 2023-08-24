@@ -1,28 +1,58 @@
-<div class="row my-5">
-  <div class="col-md-3"></div>
-  <div class="login col-md-6 rounded-3 d-flex justify-content-center">
-    <div class="my-5 w-75">
-      <div class="form-group mb-3">
-      <label for="userName">Kullanıcı Adı</label>
-      <input #txtUserNameOrEmail type="text" class="form-control" id="userName" placeholder="Kullanıcı Adı & Email">
-      <div class="form-text invalid-feedback" style="color:red">***</div>
-    </div>
-    <div lass="form-group mb-3">
-      <label for="password">Şifre</label>
-      <input #txtPassword type="password" class="form-control" id="password" placeholder="Şifre">
-    </div>
-    <div class="row mt-2">
-      <div class="col-1">
-        <asl-google-signin-button ></asl-google-signin-button>
+<section class="container">
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-sm-12 col-md-8 login rounded-3 shadow-lg my-5 shadow-lg">
+      <div class="row">
+        <div class="col-md-2 col-lg-3">
+        </div>
+        <div class="col-md-8 col-lg-6">
+          <div class="row mt-5 my-2">
+            <div class="col-6">
+             <h2 class="h4" >Giriş Yap</h2>
+            </div>
+           
+            <div class="col-6 d-inline-flex">
+              <asl-google-signin-button></asl-google-signin-button>
+              <img src="../../../../assets/facebook.png" class="facebook-btn align-items-center" width="41px" height="44" style="border-radius: 8px; padding-bottom: 11px; margin-left: 25px;" (click)="facebookLogin()">
+            </div>
+           
+          </div>
+          <div class="row">
+              <div class="form-group mb-3">
+                <label for="userName">Kullanıcı Adı</label>
+                <input #txtUserNameOrEmail type="text" class="form-control" id="userName"
+                  placeholder="Kullanıcı Adı & Email">
+                <div class="form-text invalid-feedback" style="color:red">***</div>
+              </div>
+              <div lass="form-group mb-3">
+                <label for="password">Şifre</label>
+                <input #txtPassword type="password" class="form-control" id="password" placeholder="Şifre">
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-sm-12">
+              <button type="submit" class="btn login-btn my-3"
+                (click)="login(txtUserNameOrEmail.value, txtPassword.value)">Giriş
+                Yap</button>
+            </div>
+            <div class="col-lg-3">
+              </div>
+            <div class="col-lg-5 col-sm-12"> <a class="btn  btn-secondary my-3" routerLink="/password-reset"
+              style="border-radius:5px;">Şifremi unuttum</a></div>
+          </div>      
+        </div>
+        <div class="col-md-2 col-lg-3"></div>
       </div>
-      <div class="col-md-1">
-         <img src="../../../../assets/facebook.png" class="facebook-btn" (click)="facebookLogin()">
-      </div>
     </div>
-    <button type="submit" class="btn login-btn my-3" (click)="login(txtUserNameOrEmail.value, txtPassword.value)">Giriş
-      Yap</button>
-      <a class="btn  btn-secondary my-3" routerLink="/password-reset" style="border-radius:25px; margin-left:5px;">Şifremi unuttum</a>
-    </div>
+    <div class="col-md-2"></div>
   </div>
-  <div class="col-md-3"></div>
-</div>
+</section>
+
+<section>
+  <section class="border-top">
+    <div class="container vstack align-items-center py-5">
+      <h4 clas>Hesabınız yoksa hemen yeni bir hesap oluşturun.</h4>
+      <button class="btn login-btn mt-3 shadow-lg" routerLink="/register">Kaydol</button>
+    </div>
+  </section>
+</section>

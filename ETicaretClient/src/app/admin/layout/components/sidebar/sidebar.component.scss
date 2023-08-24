@@ -1,44 +1,15 @@
 .sidebar-list-item:link {
-    color: rgb(73, 66, 66);
     text-decoration: none;
 }
 
-/* fare işaretçisi link üzerinde */
 .sidebar-list-item:hover {
-    color: rgb(108, 87, 106);
+    opacity: 0.7;
+    color: #fe4042;
+ 
 }
 
-/* tam tıklama anı */
-.sidebar-list-item:active {
-    color: rgb(52, 42, 51);
-}
-
-.active {
-    color: black;
-    font-size:large;
-    background-color: #dc687b;
-    
-}
-        
-.sidebar-item{
-    font-size: xx-large;
-    font-weight: bold;
-    color: black; 
-    font-size: xx-large;
-    background-color: #f8a2b9; 
-    border-radius:5px 45px;
-    margin: 30px;
-    height: 65px; 
-    text-align: center; 
-    border : 1px solid #f8a2b9;
-    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
-    0px 8px 10px 1px rgba(0, 0, 0, 0.14),
-     0px 3px 14px 2px rgba(0, 0, 0, 0.12);
-}
-.sidebar-list{
-    margin: 30px; border-radius: 5px;
-    background-color: #ffe5eb;
-    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
-    0px 8px 10px 1px rgba(0, 0, 0, 0.14),
-     0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+.active, .sidebar-list-item:active {
+    color: #fe4042;
+    opacity: 1;
+    font-size: large;
 }

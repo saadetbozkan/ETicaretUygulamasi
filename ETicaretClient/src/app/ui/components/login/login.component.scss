@@ -1,21 +1,20 @@
 
 .login{
-    background-color: #a1aefb;
-}
-.login-btn{
-    background-color: #687cf1;
-    border-color: #687cf1;
-    border-radius: 25px;
-}
-.login-btn:hover{
-    background-color: #2f4cf2;
+    background-image: url("../../../../assets/home_welcome.png");
 }
 .login-btn:active{
     color: #415bf2;
 }
-.facebook-btn{
-    cursor: pointer;
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
+
+.login-btn, .login-btn:active {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #fff;
+    opacity: 0.8;
+    background-color : #fe4042   ;
+}
+.login-btn:hover {
+    opacity: 1;
 }

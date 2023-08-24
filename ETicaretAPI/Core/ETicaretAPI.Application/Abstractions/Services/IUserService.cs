@@ -1,4 +1,5 @@
-﻿using ETicaretAPI.Application.DTOs.User;
+﻿using ETicaretAPI.Application.DTOs.Order;
+using ETicaretAPI.Application.DTOs.User;
 using ETicaretAPI.Domain.Entities.Identity;
 
 namespace ETicaretAPI.Application.Abstractions.Services
@@ -14,6 +15,8 @@ namespace ETicaretAPI.Application.Abstractions.Services
         Task<string[]> GetRolesToUserAsync(string userIdOrName);
         int TotalUsersCount { get; }
         Task<bool> HasRolePermissionToEndPointAsync(string name, string code);
+        Task<List<OrderListWithBasketItem>> GetOrdersToUserAsync(string username);
+        Task<List<OrderListWithBasketItem>> GetOrdersToCurrentUserAsync();
 
     }
 }

@@ -5,6 +5,7 @@ import { Create_User } from 'src/app/contracts/users/create_user';
 import { Observable, firstValueFrom } from 'rxjs';
 import { List_User } from 'src/app/contracts/users/list_user';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Order_Detail } from 'src/app/contracts/order/order_detail';
 
 @Injectable({
   providedIn: 'root'
@@ -70,6 +71,16 @@ export class UserService {
     promiseData.then(successCallBack).catch(errorCallBack);
 
     return (await promiseData).roles;
+  }
+
+  async getOrdersToCurrentUser( successCallBack?: () => void, errorCallBack?: (error)=> void){
+    const observable: Observable<any> = this.httpClientService.get({
+      controller: "Users",
+      action: "get-orders-to-current-user"
+    });
+    const promiseData = firstValueFrom(observable);
+    promiseData.then(successCallBack).catch(errorCallBack);
+    return (await promiseData).orderListWithBasketItemList;
   }
 
 }

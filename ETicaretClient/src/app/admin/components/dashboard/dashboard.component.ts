@@ -1,3 +1,4 @@
+import { _isAuthenticated } from './../../../services/common/auth.service';
 import { SignalRService } from './../../../services/common/signalr.service';
 import { MessageType, Position } from 'src/app/services/admin/alertify.service';
 import { AlertifyService } from 'src/app/services/admin/alertify.service';
@@ -35,18 +36,4 @@ export class DashboardComponent extends BaseComponent implements OnInit {
       })
     });
   }
-
-  m(){
-    this.alertify.message("Merhaba", {
-      messageType: MessageType.Error,
-      position: Position.BottomRight, 
-      delay: 5,
-      dismissOthers: false,
-    });
-  }
-
-  d(){
-    this.alertify.dismissAll();
-  }
-
 }

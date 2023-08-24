@@ -1,10 +1,12 @@
 ﻿using ETicaretAPI.Application.Abstractions.Services;
+using ETicaretAPI.Application.DTOs.Order;
 using ETicaretAPI.Application.DTOs.User;
 using ETicaretAPI.Application.Exceptions;
 using ETicaretAPI.Application.Helpers;
 using ETicaretAPI.Application.Repositories;
 using ETicaretAPI.Domain.Entities;
 using ETicaretAPI.Domain.Entities.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,11 +16,15 @@ namespace ETicaretAPI.Persistence.Services
     {
         readonly UserManager<AppUser> userManager;
         readonly IEndpointReadRepository endpointReadRepository;
+        readonly IHttpContextAccessor httpContextAccessor;
+        readonly IOrderReadRepository orderReadRepository;
 
-        public UserService(UserManager<AppUser> userManager, IEndpointReadRepository endpointReadRepository)
+        public UserService(UserManager<AppUser> userManager, IEndpointReadRepository endpointReadRepository, IHttpContextAccessor httpContextAccessor, IOrderReadRepository orderReadRepository)
         {
             this.userManager = userManager;
             this.endpointReadRepository = endpointReadRepository;
+            this.httpContextAccessor = httpContextAccessor;
+            this.orderReadRepository = orderReadRepository;
         }
 
         public async Task<CreateUserResponse> CreateAsync(CreateUser model)
@@ -49,15 +55,15 @@ namespace ETicaretAPI.Persistence.Services
                 user.RefreshTokenEndDate = accessTokenDate.AddSeconds(addOnAccessTokenDate);
                 await this.userManager.UpdateAsync(user);
             }
-           // else
-                //throw new NotFoundUserException();
+            // else
+            //throw new NotFoundUserException();
 
         }
 
         public async Task UpdatePasswordAsync(string userId, string resetToken, string newPassword)
         {
             AppUser user = await this.userManager.FindByIdAsync(userId);
-            if(user != null)
+            if (user != null)
             {
                 resetToken = resetToken.UrlDecode();
                 var result = await this.userManager.ResetPasswordAsync(user, resetToken, newPassword);
@@ -79,7 +85,7 @@ namespace ETicaretAPI.Persistence.Services
                 NameSurname = user.NameSurname,
                 TwoFactorEnabled = user.TwoFactorEnabled,
                 UserName = user.UserName,
-                IsAdmin = user.IsAdmin 
+                IsAdmin = user.IsAdmin
             }).ToList();
         }
 
@@ -88,7 +94,7 @@ namespace ETicaretAPI.Persistence.Services
         public async Task AssignRoleToUserAsync(string userId, string[] roles)
         {
             AppUser user = await this.userManager.FindByIdAsync(userId);
-            if(user is not null)
+            if (user is not null)
             {
                 var userRoles = await this.userManager.GetRolesAsync(user);
                 await this.userManager.RemoveFromRolesAsync(user, userRoles);
@@ -100,11 +106,11 @@ namespace ETicaretAPI.Persistence.Services
         public async Task<string[]> GetRolesToUserAsync(string userIdOrName)
         {
             AppUser user = await this.userManager.FindByIdAsync(userIdOrName);
-            
+
             if (user is null)
                 user = await this.userManager.FindByNameAsync(userIdOrName);
 
-            if(user is not null)
+            if (user is not null)
             {
                 var userRoles = await this.userManager.GetRolesAsync(user);
                 return userRoles.ToArray();
@@ -115,14 +121,14 @@ namespace ETicaretAPI.Persistence.Services
         public async Task<bool> HasRolePermissionToEndPointAsync(string name, string code)
         {
             var userRoles = await GetRolesToUserAsync(name);
-            
-            if(!userRoles.Any())
+
+            if (!userRoles.Any())
                 return false;
 
-           Endpoint? endpoint = await this.endpointReadRepository.Table
+            ETicaretAPI.Domain.Entities.Endpoint? endpoint = await this.endpointReadRepository.Table
                 .Include(e => e.AppRoles)
                 .FirstOrDefaultAsync(e => e.Code == code);
-            
+
             if (endpoint is null)
                 return false;
 
@@ -152,7 +158,39 @@ namespace ETicaretAPI.Persistence.Services
                     IsAdmin = user.IsAdmin,
                 };
             return new();
-            
+
+        }
+
+        public async Task<List<OrderListWithBasketItem>> GetOrdersToUserAsync(string username)
+        {
+
+            AppUser user = await this.userManager.FindByNameAsync(username);
+
+            var orders = await this.orderReadRepository.Table.Include(o => o.Basket).ThenInclude(b => b.User)
+                .Include(o => o.Basket).ThenInclude(b => b.BasketItems).ThenInclude(bi=>bi.Product).Where(x => x.Basket.User.UserName == user.UserName).Select(o => new OrderListWithBasketItem
+                {
+                    Description = o.Description,
+                    Address = o.Address,
+                    OrderCode = o.OrderCode,
+                    IsComplated = o.ComplatedOrder != null ? true : false,
+                    BasketItems = o.Basket.BasketItems.Select(bi => new { bi.Product.Name, bi.Product.Price } as Object) as List<Object>,
+                    CreatedDate = o.CreateDate
+                }
+                ).ToListAsync();
+            return orders;
+        }
+
+        public async Task<List<OrderListWithBasketItem>> GetOrdersToCurrentUserAsync()
+        {
+            var username = this.httpContextAccessor?.HttpContext?.User?.Identity?.Name;
+
+            if (username is not null)
+            {
+                var orders = await GetOrdersToUserAsync(username);
+                return orders;
+    
+            }
+             throw new NotFoundUserException("Kullanıcı bulunmamaktadır.");
         }
     }
 }
