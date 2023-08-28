@@ -6,6 +6,7 @@ import { Create_Product } from 'src/app/contracts/create_product';
 import { HttpErrorResponse } from '@angular/common/http';
 import { List_Product } from 'src/app/contracts/list_product';
 import { Update_Product } from 'src/app/contracts/update_product';
+import { Product_Detail } from 'src/app/contracts/product_detail';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,17 @@ export class ProductService {
       });
   }
 
+  async getById(id, successCallBack?: () => void, errorCallBack?: (errorMessage: string) => void): Promise<Product_Detail> {
+
+    const observable: Observable<any> = this.httpClientService.get({
+      controller: "products",
+    },id);
+    var promiseData = firstValueFrom(observable);
+    promiseData.then(successCallBack).catch(errorCallBack);
+
+    return await promiseData;
+  }
+
   async read(page: number = 0, size: number = 5, successCallBack?: () => void, errorCallBack?: (errorMessage: string) => void): Promise<{ totalProductCount: number; products: List_Product[] }> {
     const promiseDate: Promise<{ totalProductCount: number; products: List_Product[] }> = this.httpClientService.get<{ totalProductCount: number; products: List_Product[] }>({
       controller: "products",
@@ -59,6 +71,7 @@ export class ProductService {
     const observable: Observable<any> = this.httpClientService.put({
       controller: "products"
     }, product );
+    debugger;
  
     await firstValueFrom(observable);
     successCallBack();

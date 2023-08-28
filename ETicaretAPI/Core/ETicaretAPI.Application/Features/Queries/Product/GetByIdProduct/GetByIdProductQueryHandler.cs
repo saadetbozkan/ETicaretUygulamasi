@@ -18,10 +18,15 @@ namespace ETicaretAPI.Application.Features.Queries.Product.GetByIdProduct
         public async Task<GetByIdProductQueryResponse> Handle(GetByIdProductQueryRequest request, CancellationToken cancellationToken)
         {
             var product = await this.productReadRepository.GetByIdAsync(request.Id, false);
-            this.logger.LogInformation("Ürün listelendi.");
+            this.logger.LogInformation(product.Id + " ürünü listelendi.");
             return new()
             {
-                Product = product
+                Id = product.Id.ToString(),
+                Name = product.Name,
+                Stock = product.Stock,
+                Price = product.Price,
+                CreatedDate = product.CreateDate,
+                UpdatedDate = product.UpdateDate,
             };
         }
     }

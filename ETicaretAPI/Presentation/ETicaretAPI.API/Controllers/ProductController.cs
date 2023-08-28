@@ -40,7 +40,7 @@ namespace ETicaretAPI.API.Controllers
         }
 
         [HttpGet("{Id}")]
-        public async Task<IActionResult> Get([FromRoute] GetByIdProductQueryRequest getByIdProductQueryRequest)
+        public async Task<IActionResult> GetById([FromRoute]GetByIdProductQueryRequest getByIdProductQueryRequest)
         {
             GetByIdProductQueryResponse response = await this.mediator.Send(getByIdProductQueryRequest);
             return Ok(response);

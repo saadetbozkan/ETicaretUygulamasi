@@ -37,4 +37,9 @@ export class ProductsComponent extends BaseComponent implements OnInit {
       afterClosed: () => {}
     });
   }
+
+  opened = false;
+  createProductOpen(){
+    this.opened = !this.opened;
+  }
 }

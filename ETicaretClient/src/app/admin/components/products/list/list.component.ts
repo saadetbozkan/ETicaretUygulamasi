@@ -9,6 +9,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { DialogService } from 'src/app/services/common/dialog.service';
 import { SelectProductImageDialogComponent } from 'src/app/dialogs/select-product-image-dialog/select-product-image-dialog.component';
 import { QrcodeDialogComponent } from 'src/app/dialogs/qrcode-dialog/qrcode-dialog.component';
+import { ProductUpdateDialogComponent } from 'src/app/dialogs/product-update-dialog/product-update-dialog.component';
 
 @Component({
   selector: 'app-list',
@@ -64,4 +65,12 @@ export class ListComponent extends BaseComponent implements OnInit {
     })
 
   }
+
+  updateProductStock(productId: string){
+    this.dialogService.openDialog({
+      componentType: ProductUpdateDialogComponent,
+      data : productId
+    })
+  }
+  
 }
