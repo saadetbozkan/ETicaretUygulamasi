@@ -1,17 +1,18 @@
-table {
-    width: 100%;
-    background-color: #ffe5eb;
-    
+  table {
+    width: 100%;    
   }
   .mat-paginator {
+    width: 100%;
     font-size: small;
-    background-color: #dc687b;
+    background-color: #fe4042;
+    opacity: 0.7;
     border-radius: 5px;
+    display: block;
   }  
   td, th {
     font-size: 12px;
   }
-  .role-list-table-header{
+  .product-list-table-header{
     font-weight: bold;
     font-size: medium;
   }

@@ -18,4 +18,9 @@ export class RoleComponent implements OnInit {
     this.listComponent.getRoles();
   }
 
+  opened = false;
+  createRoleOpen(){
+    this.opened = !this.opened;
+  }
+
 }

@@ -18,7 +18,7 @@ namespace ETicaretAPI.Application.Features.Commands.AppUser.GoogleLoginUser
 
         public async Task<GoogleLoginUserCommandResponse> Handle(GoogleLoginUserCommandRequest request, CancellationToken cancellationToken)
         {
-            Token token = await authService.GoogleLoginAsync(request.IdToken, 60*15);
+            Token token = await authService.GoogleLoginAsync(request.IdToken, 60*30);
             this.logger.LogInformation("Kullanıcı google ile giriş yaptı.");
 
             return new()

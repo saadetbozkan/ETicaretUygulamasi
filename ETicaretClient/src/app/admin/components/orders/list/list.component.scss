@@ -1,11 +1,13 @@
 table {
     width: 100%;
-    background-color: #ffe5eb;
-     
+   
   }
  .mat-paginator {
+    width: 100%;
     font-size: small;
-    background-color: #f8a2b9;
+    background-color: #fe4042;
+    opacity: 0.7;
+    border-radius: 5px;
   }  
   td, th {
     font-size: 12px;

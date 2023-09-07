@@ -2,12 +2,11 @@
 using ETicaretAPI.Application.CustomAttributes;
 using ETicaretAPI.Application.Features.Commands.AppUser.AssignRoleToUser;
 using ETicaretAPI.Application.Features.Commands.AppUser.CreateUser;
+using ETicaretAPI.Application.Features.Commands.AppUser.DeleteUser;
 using ETicaretAPI.Application.Features.Commands.AppUser.UpdatePassword;
-using ETicaretAPI.Application.Features.Commands.AuthorizationEndpoint.AssignRoleEndpoint;
 using ETicaretAPI.Application.Features.Queries.AppUser.GetAllUser;
 using ETicaretAPI.Application.Features.Queries.AppUser.GetOrdersToCurrentUser;
 using ETicaretAPI.Application.Features.Queries.AppUser.GetRolesToUser;
-using ETicaretAPI.Application.Features.Queries.Order.GetAllOrders;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -76,6 +75,17 @@ namespace ETicaretAPI.API.Controllers
             return Ok(response);
 
         }
+
+        [HttpDelete("{Id}")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstansts.User, ActionType = Application.Enums.ActionType.Deleting, Definition = "Delete User")]
+        public async Task<IActionResult> DeleteRole([FromRoute] DeleteUserCommandRequest deleteUserCommandRequest)
+        {
+            DeleteUserCommandResponse response = await this.mediator.Send(deleteUserCommandRequest);
+            return Ok(response);
+
+        }
+
     }
 }
 

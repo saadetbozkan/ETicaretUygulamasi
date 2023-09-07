@@ -111,5 +111,16 @@ namespace ETicaretAPI.Persistence.Services
             return (false, null);
 
         }
+
+        public async Task RemoveOrderAsync(string id)
+        {
+            Order? order = await this.orderReadRepository.GetByIdAsync(id);
+            if(order != null)
+            {
+                await this.orderWriteRepository.RemoveAsync(id);   
+                await this.orderWriteRepository.SaveAsync();
+            }    
+
+        }
     }
 }

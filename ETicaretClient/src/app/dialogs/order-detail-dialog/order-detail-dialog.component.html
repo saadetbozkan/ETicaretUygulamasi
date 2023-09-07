@@ -1,11 +1,10 @@
 <h2 mat-dialog-title>Sipariş Detayı</h2>
 
-<mat-dialog-content class="mat-typography" style="background-color: #dc687b;">
-  <mat-toolbar class="mat-typography" style="background-color: #dc687b">
+<mat-dialog-content class="mat-typography" >
+  <mat-toolbar class="mat-typography">
     <span>Sipariş No: {{orderDetail.orderCode}}</span>
   </mat-toolbar>
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 order-detail-table"
-    style="background-color: #ffe5eb;">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 order-detail-table">
 
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef class="order-detail-table-header">Name</th>
@@ -33,14 +32,13 @@
     <tr mat-row (click)="clickedRows.add(row)" [class.order-detail-row-is-clicked]="clickedRows.has(row)"
       *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <div style="background-color: #dc687b; text-align: right; font-weight: bold;">Toplam Fiyat <br> {{totalPrice |
+  <div style="text-align: right; font-weight: bold;">Toplam Fiyat <br> {{totalPrice |
     currency : "₺"}}
     <br>
     Address: {{orderDetail.address}}
     <br>
     Description: {{orderDetail.description}}
   </div>
-
 
 </mat-dialog-content>
 <mat-dialog-actions align="end">

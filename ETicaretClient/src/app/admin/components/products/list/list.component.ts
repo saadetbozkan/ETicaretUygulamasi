@@ -69,7 +69,13 @@ export class ListComponent extends BaseComponent implements OnInit {
   updateProductStock(productId: string){
     this.dialogService.openDialog({
       componentType: ProductUpdateDialogComponent,
-      data : productId
+      data : productId,
+      options: {
+        width: "500px"
+      }, 
+      afterClosed: async () =>{
+        await this.getProducts();
+      }
     })
   }
   

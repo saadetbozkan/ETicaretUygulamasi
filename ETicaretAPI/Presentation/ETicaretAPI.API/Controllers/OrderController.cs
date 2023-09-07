@@ -4,6 +4,7 @@ using ETicaretAPI.Application.CustomAttributes;
 using ETicaretAPI.Application.Enums;
 using ETicaretAPI.Application.Features.Commands.Order.ComplatedOrder;
 using ETicaretAPI.Application.Features.Commands.Order.CreateOrder;
+using ETicaretAPI.Application.Features.Commands.Order.RemoveOrder;
 using ETicaretAPI.Application.Features.Queries.Order.GetAllOrders;
 using ETicaretAPI.Application.Features.Queries.Order.GetOrderById;
 using MediatR;
@@ -60,6 +61,14 @@ namespace ETicaretAPI.API.Controllers
             return Ok(response);
         }
 
+        [HttpDelete("{Id}")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstansts.Order, ActionType = ActionType.Deleting, Definition = "Delete Order")]
+        public async Task<IActionResult> Delete([FromRoute] RemoveOrderCommandRequest removeOrderCommandRequest)
+        {
 
+            RemoveOrderCommandResponse response = await this.mediator.Send(removeOrderCommandRequest);
+            return Ok();
+        }
     }
 }

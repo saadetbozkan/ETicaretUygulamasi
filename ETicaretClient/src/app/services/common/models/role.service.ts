@@ -38,4 +38,14 @@ export class RoleService {
 
     return data ;
   }
+  async update(id: string, name: string, successCallBack?: () => void, errorCallBack?: (error) => void){
+    const observable: Observable<any> = this.httpClientService.put({
+      controller: "roles",
+    },{id: id, name: name});
+
+    var promiseData = firstValueFrom(observable);
+    promiseData.then(successCallBack)
+    .catch(errorCallBack)
+    return await promiseData;
+  }
 }

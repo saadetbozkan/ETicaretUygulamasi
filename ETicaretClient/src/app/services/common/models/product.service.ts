@@ -71,9 +71,7 @@ export class ProductService {
     const observable: Observable<any> = this.httpClientService.put({
       controller: "products"
     }, product );
-    debugger;
- 
-    await firstValueFrom(observable);
+      await firstValueFrom(observable);
     successCallBack();
   }
 

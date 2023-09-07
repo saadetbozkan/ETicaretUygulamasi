@@ -1,16 +1,23 @@
 table {
-    width: 100%;
-    background-color: #ffe5eb;
-     
-  }
- .mat-paginator {
-    font-size: small;
-    background-color: #f8a2b9;
-  }  
-  td, th {
-    font-size: 12px;
-  }
-  .order-list-table-header{
-    font-weight: bold;
-    font-size: medium;
-  }
+  width: 100%;
+
+}
+
+td,
+th {
+  font-size: 12px;
+}
+
+.order-list-table-header {
+  font-weight: bold;
+  font-size: medium;
+}
+
+.mat-paginator {
+  width: 100%;
+  font-size: small;
+  background-color: #fe4042;
+  opacity: 0.7;
+  border-radius: 5px;
+  display: block;
+}

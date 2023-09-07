@@ -7,6 +7,7 @@ import { AlertifyService, MessageType, Position } from 'src/app/services/admin/a
 import { DialogService } from 'src/app/services/common/dialog.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { List_Role } from 'src/app/contracts/role/list_role';
+import { RoleUpdateDialogComponent } from 'src/app/dialogs/role-update-dialog/role-update-dialog.component';
 
 @Component({
   selector: 'app-list',
@@ -55,5 +56,19 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   async ngOnInit() {
     await this.getRoles();
+  }
+
+  async updateRole(roleId: string, roleName: string){
+    this.dialogService.openDialog({
+      componentType: RoleUpdateDialogComponent,
+      data: {roleId: roleId, roleName: roleName},
+      options: {
+        width: "500px"
+      }, 
+      afterClosed: async () =>{
+        await this.getRoles();
+      }
+    });
+    
   }
 }

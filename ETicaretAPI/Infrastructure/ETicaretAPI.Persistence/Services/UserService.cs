@@ -192,5 +192,17 @@ namespace ETicaretAPI.Persistence.Services
             }
              throw new NotFoundUserException("Kullanıcı bulunmamaktadır.");
         }
+
+        public async Task<bool> DeleteUserAsync(string id)
+        {
+            var user =  await this.userManager.FindByIdAsync(id);
+
+            if(user is not null)
+            {
+               await this.userManager.DeleteAsync(user);
+               return true;
+            }
+            throw new NotFoundUserException("Kullanıcı bulunmamaktadır.");
+        }
     }
 }

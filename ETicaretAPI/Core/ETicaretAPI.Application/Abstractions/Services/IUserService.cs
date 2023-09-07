@@ -17,6 +17,7 @@ namespace ETicaretAPI.Application.Abstractions.Services
         Task<bool> HasRolePermissionToEndPointAsync(string name, string code);
         Task<List<OrderListWithBasketItem>> GetOrdersToUserAsync(string username);
         Task<List<OrderListWithBasketItem>> GetOrdersToCurrentUserAsync();
+        Task<bool> DeleteUserAsync(string id); 
 
     }
 }
